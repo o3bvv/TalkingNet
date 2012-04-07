@@ -1,4 +1,4 @@
-package talkingnet.utils.printer.sequence;
+package talkingnet.utils.printer.sequence.array;
 
 import org.junit.Test;
 
@@ -6,20 +6,20 @@ import org.junit.Test;
  *
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  */
-public class ArrayPrinterTest {
+public class ByteArrayPrinterTest {
     
     private final static int ARRAY_LENGTH = 10;
     
-    private byte[] array;
-    private ArrayPrinter printer;
+    private Byte[] array;
+    private ByteArrayPrinter printer;
 
-    public ArrayPrinterTest() {
+    public ByteArrayPrinterTest() {
         initArray();
-        printer = new ArrayPrinter();
+        printer = new ByteArrayPrinter();
     }
     
     private void initArray(){
-        array = new byte[ARRAY_LENGTH];
+        array = new Byte[ARRAY_LENGTH];
         for (byte i = 0; i < array.length; i++) {
             array[i] = i;
         }

@@ -6,7 +6,7 @@ import java.io.PrintStream;
  *
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  */
-public abstract class SequencePrinter {
+public abstract class SequencePrinter<T> {
     
     protected char startBorder = '[';
     protected char stopBorder  = ']';
@@ -20,6 +20,25 @@ public abstract class SequencePrinter {
     public SequencePrinter(PrintStream stream) {
         this.stream = stream;
     }
+    
+    public void print(T sequence){
+        printUnflushed(sequence);
+        done();
+    }
+    
+    public void printLn(T sequence){
+        printUnflushed(sequence);
+        newLine();
+        done();
+    }
+    
+    protected void printUnflushed(T sequence){
+        start();        
+        printBody(sequence);        
+        stop();
+    }
+    
+    protected abstract void printBody(T sequence);
     
     protected void start(){
         stream.print(startBorder);
