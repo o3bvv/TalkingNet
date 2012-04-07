@@ -9,5 +9,6 @@
     <name>TalkingNet</name>
     <modules>
         <module>Core</module>
-    </modules>
+    <module>Utils</module>
+  </modules>
 </project>
