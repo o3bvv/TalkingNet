@@ -4,6 +4,7 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Mixer;
 import org.junit.Test;
+import talkingnet.audiodevices.util.FooAudioFormat;
 import talkingnet.core.io.Pushable;
 import talkingnet.core.io.channel.PushChannel;
 
@@ -30,13 +31,7 @@ public class AudioSourceTest {
         
         channel = new PushChannel(sink);
         
-        format = new AudioFormat(
-                AudioFormat.Encoding.PCM_SIGNED,
-                16000,
-                16,
-                1,
-                2,
-                16000, true);
+        format = new FooAudioFormat();
         
         initDefaultMixer();
         
