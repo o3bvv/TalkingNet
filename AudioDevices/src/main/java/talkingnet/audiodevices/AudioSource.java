@@ -92,7 +92,11 @@ public class AudioSource extends Element implements Pushing, LineListener {
         openLine();
     }
     
-    protected void close() {
+    public void close() {
+        if (thread != null){
+            thread.terminate();
+            thread.waitFor();
+        }
         if (line != null) {
             line.flush();
             line.stop();
@@ -179,7 +183,7 @@ public class AudioSource extends Element implements Pushing, LineListener {
         }
 
         private void tryRead(byte[] data, int size) throws IOException {
-            while (offset < size) {
+            while ((offset < size) && (!doTerminate)) {
                 int read = lineStream.read(data, offset, size);
                 if (read == 0) {
                     continue;
@@ -278,6 +282,7 @@ public class AudioSource extends Element implements Pushing, LineListener {
 
     public void setMuted(boolean muted) {
         this.muted = muted;
+        thread.notifyAll();
     }
     
     public boolean isStarted() {
