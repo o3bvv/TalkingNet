@@ -102,9 +102,7 @@ public class AudioSource extends Element implements Pushing, LineListener {
             line.stop();
             line.close();
             running = false;
-            if (title != null) {
-                System.out.println(title + ": line closed.");
-            }
+            System.out.println(title + ": line closed.");
         }
     }
     
@@ -127,7 +125,7 @@ public class AudioSource extends Element implements Pushing, LineListener {
     }
     
     protected void doCreateLine() throws Exception {
-        System.out.println("Capture: creating TargetDataLine");
+        System.out.println(title+": creating TargetDataLine");
         DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
 
         if (mixer != null) {
@@ -151,7 +149,7 @@ public class AudioSource extends Element implements Pushing, LineListener {
     }
     
     protected void doOpenLine() throws Exception {
-        System.out.println("Capture: opening TargetDataLine and creating TargetDataLineAIS");
+        System.out.println(title+": opening TargetDataLine and creating TargetDataLineAIS");
         TargetDataLine tdl = (TargetDataLine) line;
         tdl.open(format, bufferLength);
         lineStream = new PullingStream(tdl);
