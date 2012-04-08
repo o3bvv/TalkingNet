@@ -1,11 +1,6 @@
 package talkingnet.audiodevices;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Mixer;
 import org.junit.Test;
-import talkingnet.audiodevices.util.FooAudioFormat;
-import talkingnet.audiodevices.util.FooMixerHolder;
 import talkingnet.core.io.Pushable;
 import talkingnet.core.io.channel.PushChannel;
 
@@ -16,8 +11,6 @@ import talkingnet.core.io.channel.PushChannel;
 public class AudioSourceTest {
     
     private AudioSource source;    
-    private AudioFormat format;
-    private Mixer mixer;
     private PushChannel channel;
     private Pushable sink;
     
@@ -32,11 +25,7 @@ public class AudioSourceTest {
         
         channel = new PushChannel(sink);
         
-        format = new FooAudioFormat();
-        mixer = FooMixerHolder.getMixer();
-        
-        source = new AudioSource(
-                mixer, format, bufferLength, channel, "audioSrc");
+        source = new FooAudioSource(bufferLength, channel, "audioSrc");
     }
     
     @Test
