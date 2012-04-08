@@ -4,7 +4,7 @@ package talkingnet.core.io;
  *
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  */
-public interface Sink {
+public interface Pushable {
 
-    void takeUp(byte[] data, int size);
+    void push(byte[] data, int size);
 }

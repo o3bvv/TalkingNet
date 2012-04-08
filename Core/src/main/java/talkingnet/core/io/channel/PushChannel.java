@@ -2,7 +2,7 @@ package talkingnet.core.io.channel;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import talkingnet.core.io.Sink;
+import talkingnet.core.io.Pushable;
 
 /**
  *
@@ -10,9 +10,9 @@ import talkingnet.core.io.Sink;
  */
 public class PushChannel extends OutputStream {
 
-    protected Sink sink;
+    protected Pushable sink;
 
-    public PushChannel(Sink sink) {
+    public PushChannel(Pushable sink) {
         this.sink = sink;
     }
 
@@ -32,6 +32,6 @@ public class PushChannel extends OutputStream {
     
     @Override
     public void write(byte[] data, int offset, int length) throws IOException {
-        sink.takeUp(data, length);
+        sink.push(data, length);
     }
 }
