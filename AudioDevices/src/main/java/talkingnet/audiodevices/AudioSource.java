@@ -93,6 +93,11 @@ public class AudioSource extends Element implements Pushing, LineListener {
     }
     
     public void close() {
+        closeLine();
+        destroyLine();
+    }
+    
+    private void closeLine() {
         if (thread != null){
             thread.terminate();
             thread.waitFor();
