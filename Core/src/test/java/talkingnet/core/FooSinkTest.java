@@ -12,6 +12,6 @@ public class FooSinkTest {
     public void testFooSinkTakeUp(){
         byte[] array = {1, 3, 5, 7, 9};
         FooSink sink = new FooSink();
-        sink.push(array, array.length);
+        sink.push_in(array, array.length);
     }
 }

@@ -32,6 +32,6 @@ public class PushChannel extends OutputStream {
     
     @Override
     public void write(byte[] data, int offset, int length) throws IOException {
-        sink.push(data, length);
+        sink.push_in(data, length);
     }
 }

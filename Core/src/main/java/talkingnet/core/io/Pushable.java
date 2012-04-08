@@ -6,5 +6,5 @@ package talkingnet.core.io;
  */
 public interface Pushable {
 
-    void push(byte[] data, int size);
+    void push_in(byte[] data, int size);
 }
