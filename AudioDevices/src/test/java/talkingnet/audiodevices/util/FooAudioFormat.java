@@ -10,8 +10,8 @@ public class FooAudioFormat extends AudioFormat {
 
     public FooAudioFormat() {
         super(AudioFormat.Encoding.PCM_SIGNED,
-                16000,
+                11025,
                 16, 1, 2,
-                16000, true);
+                11025, true);
     }
 }
