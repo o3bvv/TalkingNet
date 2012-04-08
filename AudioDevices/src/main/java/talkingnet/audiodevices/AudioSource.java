@@ -2,6 +2,8 @@ package talkingnet.audiodevices;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sound.sampled.*;
 import talkingnet.core.Element;
 import talkingnet.core.io.Pulling;
@@ -145,8 +147,8 @@ public class AudioSource extends Element implements Pushing, LineListener {
             bufferLength -= bufferLength % format.getFrameSize();
             doOpenLine();
             System.out.println(title + ": opened line");
-            bufferLength = line.getBufferSize();
-            System.out.println(title + ": buffer length:" + bufferLength + " bytes.");
+            System.out.println(title + ": data buffer length:" + bufferLength + " bytes, "+
+                               "internal buffer length:" + line.getBufferSize() + " bytes.");
         } catch (LineUnavailableException ex) {
             running = false;
             throw new Exception("Unable to open " + title + ": " + ex.getMessage());
@@ -156,7 +158,7 @@ public class AudioSource extends Element implements Pushing, LineListener {
     protected void doOpenLine() throws Exception {
         System.out.println(title+": opening TargetDataLine and creating TargetDataLineAIS");
         TargetDataLine tdl = (TargetDataLine) line;
-        tdl.open(format, bufferLength);
+        tdl.open(format, bufferLength*5);
         lineStream = new PullingStream(tdl);
     }
 
@@ -168,32 +170,40 @@ public class AudioSource extends Element implements Pushing, LineListener {
 
         @Override
         public void run() {
-            byte[] buffer = new byte[bufferLength];
+            int read;
             while (!doTerminate) {
-                pull_in(buffer, buffer.length);
-                push_out(buffer, buffer.length);
+                byte[] buffer = new byte[bufferLength];
+                read = pull_in(buffer, buffer.length);
+                
+                if (read > 0) {
+                    synchronized (AudioSource.this) {
+                        push_out(buffer, buffer.length);
+                    }
+                } else {
+                    try {
+                        synchronized (this) {
+                            this.wait(20);
+                        }
+                    } catch (InterruptedException ex) {
+                        System.out.println(ex);
+                    }
+                }
             }
             terminated = true;
         }
 
         @Override
-        public void pull_in(byte[] data, int size) {
+        public int pull_in(byte[] data, int size) {
             try {
-                tryRead(data, size);
+                return tryRead(data, size);
             } catch (IOException ex) {
                 System.out.println(ex);
             }
+            return -1;
         }
 
-        private void tryRead(byte[] data, int size) throws IOException {
-            while ((offset < size) && (!doTerminate)) {
-                int read = lineStream.read(data, offset, size);
-                if (read == 0) {
-                    continue;
-                }
-                offset += read;
-            }
-            offset = 0;
+        private int tryRead(byte[] data, int size) throws IOException {
+            return lineStream.read(data, offset, size);            			
         }
 
         public synchronized void terminate() {
@@ -240,11 +250,7 @@ public class AudioSource extends Element implements Pushing, LineListener {
                 return -1;
             }
             try {
-                int ret = line.read(b, off, len);
-                
-                // TODO: if muted                
-                
-                return ret;
+                return line.read(b, off, len);
             } catch (IllegalArgumentException e) {
                 throw new IOException(e.getMessage());
             }

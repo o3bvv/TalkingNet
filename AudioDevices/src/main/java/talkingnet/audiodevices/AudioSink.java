@@ -121,8 +121,8 @@ public class AudioSink extends Element implements Pulling, LineListener {
             bufferLength -= bufferLength % format.getFrameSize();
             doOpenLine();
             System.out.println(title + ": opened line");
-            bufferLength = line.getBufferSize();
-            System.out.println(title + ": buffer length:" + bufferLength + " bytes.");
+            System.out.println(title + ": data buffer length:" + bufferLength + " bytes, "+
+                               "internal buffer length:" + line.getBufferSize() + " bytes.");
         } catch (LineUnavailableException ex) {
             running = false;
             throw new Exception("Unable to open " + title + ": " + ex.getMessage());
@@ -132,16 +132,17 @@ public class AudioSink extends Element implements Pulling, LineListener {
     protected void doOpenLine() throws Exception {
         System.out.println(title + ": opening TargetDataLine and creating TargetDataLineAIS");
         SourceDataLine sdl = (SourceDataLine) line;
-        sdl.open(format, bufferLength);
+        sdl.open(format, bufferLength*5);
     }
     
     @Override
-    public void pull_in(byte[] data, int size) {
+    public int pull_in(byte[] data, int size) {
         try {
-            channel_in.read(data, size);
+            return channel_in.read(data, size);
         } catch (IOException ex) {
             System.out.println(ex);
         }
+        return -1;
     }
 
     @Override
@@ -165,9 +166,23 @@ public class AudioSink extends Element implements Pulling, LineListener {
         @Override
         public void run(){
             byte[] buffer = new byte[bufferLength];
+            int read;
             while (!doTerminate) {
-                pull_in(buffer, buffer.length);
-                push_out(buffer, buffer.length);
+                read = pull_in(buffer, buffer.length);
+                
+                if (read > 0) {
+                    synchronized (AudioSink.this) {
+                        push_out(buffer, buffer.length);
+                    }
+                } else {
+                    try {
+                        synchronized (this) {
+                            this.wait(40);
+                        }
+                    } catch (InterruptedException ex) {
+                        System.out.println(ex);
+                    }
+                }
             }
             terminated = true;
         }
