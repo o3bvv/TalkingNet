@@ -11,5 +11,6 @@
         <module>Core</module>
         <module>Utils</module>
         <module>AudioDevices</module>
-    </modules>
+    <module>Net</module>
+  </modules>
 </project>
