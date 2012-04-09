@@ -1,5 +1,6 @@
-package talkingnet.audiodevices;
+package talkingnet.audiodevices.defaults;
 
+import talkingnet.audiodevices.AudioSource;
 import talkingnet.core.io.channel.PushChannel;
 import talkingnet.utils.DefaultAudioFormat;
 import talkingnet.utils.DefaultMixerHolder;
@@ -8,9 +9,9 @@ import talkingnet.utils.DefaultMixerHolder;
  *
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  */
-public class FooAudioSource extends AudioSource {
+public class DefaultAudioSource extends AudioSource {
 
-    public FooAudioSource(int bufferLength, PushChannel channel_out, String title) {
+    public DefaultAudioSource(int bufferLength, PushChannel channel_out, String title) {
         super(DefaultMixerHolder.getMixer(),
                 new DefaultAudioFormat(),
                 bufferLength, channel_out, title);

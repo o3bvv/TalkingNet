@@ -3,6 +3,7 @@ package talkingnet.audiodevices;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import org.junit.Test;
 import talkingnet.audiodevices.defaults.DefaultAudioSink;
+import talkingnet.audiodevices.defaults.DefaultAudioSource;
 import talkingnet.core.Element;
 import talkingnet.core.io.Pullable;
 import talkingnet.core.io.Pushable;
@@ -26,7 +27,7 @@ public class EchoTest {
     public EchoTest() {
         pool = new Pool("pool");
         channel_out = new PushChannel(pool);
-        source = new FooAudioSource(bufferLength, channel_out, "src");
+        source = new DefaultAudioSource(bufferLength, channel_out, "src");
         channel_in = new PullChannel(pool);
         sink = new DefaultAudioSink(bufferLength, channel_in, "sink");
     }

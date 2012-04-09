@@ -1,6 +1,7 @@
 package talkingnet.audiodevices;
 
 import org.junit.Test;
+import talkingnet.audiodevices.defaults.DefaultAudioSource;
 import talkingnet.core.io.Pushable;
 import talkingnet.core.io.channel.PushChannel;
 
@@ -25,7 +26,7 @@ public class AudioSourceTest {
         
         channel = new PushChannel(sink);
         
-        source = new FooAudioSource(bufferLength, channel, "audioSrc");
+        source = new DefaultAudioSource(bufferLength, channel, "audioSrc");
     }
     
     @Test
