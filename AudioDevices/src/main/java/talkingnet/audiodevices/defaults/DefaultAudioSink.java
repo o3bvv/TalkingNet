@@ -1,5 +1,6 @@
-package talkingnet.audiodevices;
+package talkingnet.audiodevices.defaults;
 
+import talkingnet.audiodevices.AudioSink;
 import talkingnet.core.io.channel.PullChannel;
 import talkingnet.utils.DefaultAudioFormat;
 import talkingnet.utils.DefaultMixerHolder;
@@ -8,9 +9,9 @@ import talkingnet.utils.DefaultMixerHolder;
  *
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  */
-public class FooAudioSink extends AudioSink{
+public class DefaultAudioSink extends AudioSink{
 
-    public FooAudioSink(int bufferLength, PullChannel channel_in, String title) {
+    public DefaultAudioSink(int bufferLength, PullChannel channel_in, String title) {
         super(DefaultMixerHolder.getMixer(),
                 new DefaultAudioFormat(),
                 bufferLength, channel_in, title);
