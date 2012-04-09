@@ -19,6 +19,7 @@ public class AudioSink extends AudioDevice implements Pulling{
             PullChannel channel_in, String title) {
         super(mixer, format, bufferLength,title);
         this.channel_in = channel_in;
+        internalBufferScale = 1;
     }
     
     @Override

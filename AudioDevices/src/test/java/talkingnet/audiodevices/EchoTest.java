@@ -13,7 +13,7 @@ import talkingnet.core.io.channel.PushChannel;
  */
 public class EchoTest {
     
-    private int bufferLength = (11025*2/10)*3;
+    private int bufferLength = (11025*2/10);
     
     private AudioSource source;
     private PushChannel channel_out;
@@ -36,7 +36,7 @@ public class EchoTest {
         sink.start();
         source.start();
         
-        Thread.sleep(15000l);
+        Thread.sleep(25000l);
         
         source.close();
         sink.close(); 
