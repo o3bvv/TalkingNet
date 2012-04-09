@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import talkingnet.core.Element;
-import talkingnet.core.io.Pushable;
+import talkingnet.net.udp.channel.UdpPushable;
 
 /**
  *
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  */
-public class UdpSink extends Element implements Pushable {
+public class UdpSink extends Element implements UdpPushable {
 
     private DatagramSocket socket;
     
@@ -21,6 +21,7 @@ public class UdpSink extends Element implements Pushable {
     /**
      * If socket is connected to some peer.
      */
+    @Override
     public void push_in(byte[] data, int size) {
         DatagramPacket packet = new DatagramPacket(data, size);
         push_in(packet);
@@ -29,6 +30,7 @@ public class UdpSink extends Element implements Pushable {
     /**
      * If socket is not connected to any peer.
      */
+    @Override
     public void push_in(DatagramPacket packet) {
         try {
             socket.send(packet);
