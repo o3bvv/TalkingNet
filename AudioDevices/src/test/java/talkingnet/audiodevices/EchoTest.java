@@ -14,7 +14,7 @@ import talkingnet.core.io.channel.PushChannel;
  */
 public class EchoTest {
     
-    private int bufferLength = 2205*4;
+    private int bufferLength = (11025*2/10)*3;
     
     private AudioSource source;
     private PushChannel channel_out;

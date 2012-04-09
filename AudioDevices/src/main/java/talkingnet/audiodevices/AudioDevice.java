@@ -18,6 +18,7 @@ public abstract class AudioDevice extends Element implements LineListener {
     protected Mixer mixer;
     protected boolean muted = false;
     protected boolean running = false;
+    protected int internalBufferScale = 3;
 
     public AudioDevice(
             Mixer mixer, AudioFormat format, int bufferLength, String title) {
@@ -159,5 +160,9 @@ public abstract class AudioDevice extends Element implements LineListener {
         if (thread!=null){
             thread.notifyAll();
         }
+    }
+
+    public void setInternalBufferScale(int internalBufferScale) {
+        this.internalBufferScale = internalBufferScale;
     }
 }

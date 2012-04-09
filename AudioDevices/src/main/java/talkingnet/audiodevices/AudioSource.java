@@ -60,7 +60,7 @@ public class AudioSource extends AudioDevice implements Pushing {
     protected void doOpenLine() throws Exception {
         System.out.println(title+": opening TargetDataLine and creating TargetDataLineAIS");
         TargetDataLine tdl = (TargetDataLine) line;
-        tdl.open(format, bufferLength*5);
+        tdl.open(format, bufferLength*internalBufferScale);
         lineStream = new PullingStream(tdl);
     }
 

@@ -50,7 +50,7 @@ public class AudioSink extends AudioDevice implements Pulling{
     protected void doOpenLine() throws Exception {
         System.out.println(title + ": opening TargetDataLine and creating TargetDataLineAIS");
         SourceDataLine sdl = (SourceDataLine) line;
-        sdl.open(format, bufferLength*5);
+        sdl.open(format, bufferLength*internalBufferScale);
     }
     
     @Override
