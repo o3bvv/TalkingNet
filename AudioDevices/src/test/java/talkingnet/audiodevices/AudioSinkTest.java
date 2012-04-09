@@ -3,10 +3,10 @@ package talkingnet.audiodevices;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.Mixer;
 import org.junit.Test;
-import talkingnet.audiodevices.util.FooMixerHolder;
 import talkingnet.core.io.Pullable;
 import talkingnet.core.io.channel.PullChannel;
 import talkingnet.utils.DefaultAudioFormat;
+import talkingnet.utils.DefaultMixerHolder;
 
 /**
  *
@@ -25,7 +25,7 @@ public class AudioSinkTest {
     
     public AudioSinkTest() {        
         source = new SineGenerator();        
-        mixer = FooMixerHolder.getMixer();
+        mixer = DefaultMixerHolder.getMixer();
         format = new DefaultAudioFormat();
         channel = new PullChannel(source);        
         sink = new AudioSink(mixer, format, bufferLength, channel, "audioSink");        
