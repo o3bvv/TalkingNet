@@ -17,9 +17,14 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>talkingnet</groupId>
+            <groupId>${project.groupId}</groupId>
+            <version>${project.version}</version>
             <artifactId>Core</artifactId>
-            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <version>${project.version}</version>
+            <artifactId>Utils</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
