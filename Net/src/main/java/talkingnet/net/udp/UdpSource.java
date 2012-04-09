@@ -3,23 +3,21 @@ package talkingnet.net.udp;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import talkingnet.core.Element;
 import talkingnet.net.udp.channel.UdpPushChannel;
 
 /**
  *
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  */
-public class UdpSource extends Element implements UdpPushing {
+public class UdpSource extends UdpElement implements UdpPushing {
 
     private PullingThread thread;
     private int bufferLength;
-    private DatagramSocket socket;
     private UdpPushChannel channel_out;
     private boolean doProcessing = false;
 
     public UdpSource(DatagramSocket socket, UdpPushChannel channel, int bufferLength, String title) {
-        super(title);
+        super(socket, title);
         this.socket = socket;
         this.channel_out = channel;
         this.bufferLength = bufferLength;

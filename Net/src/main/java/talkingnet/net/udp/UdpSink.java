@@ -3,19 +3,16 @@ package talkingnet.net.udp;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import talkingnet.core.Element;
 import talkingnet.net.udp.channel.UdpPushable;
 
 /**
  *
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  */
-public class UdpSink extends Element implements UdpPushable {
-
-    private DatagramSocket socket;
+public class UdpSink extends UdpElement implements UdpPushable {
     
     public UdpSink(DatagramSocket socket, String title) {
-        super(title);
+        super(socket, title);
     }
 
     /**
