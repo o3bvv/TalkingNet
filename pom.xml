@@ -12,5 +12,6 @@
         <module>Utils</module>
         <module>AudioDevices</module>
     <module>Net</module>
+    <module>Codec</module>
   </modules>
 </project>
