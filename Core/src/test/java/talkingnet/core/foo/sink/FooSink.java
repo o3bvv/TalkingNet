@@ -16,7 +16,7 @@ public class FooSink extends Element implements Pushable{
     }
 
     public void push_in(byte[] data, int length) {
-        System.out.printf("[%s] %s", 
+        System.out.printf("[%s] %s\n", 
                 new Timestamp(System.currentTimeMillis()), title);
         System.out.printf("\tTaking up data. Size: %d.\n", length);
         System.out.printf("\tData: ");
