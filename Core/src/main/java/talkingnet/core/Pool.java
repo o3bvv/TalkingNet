@@ -30,4 +30,8 @@ public class Pool extends Element implements Pushable, Pullable {
         }
         System.arraycopy(result, 0, data, 0, size);
     }
+    
+    public void reset(){
+        queue.clear();
+    }
 }
