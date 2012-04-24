@@ -1,4 +1,4 @@
-package talkingnet.utils;
+package talkingnet.utils.audio;
 
 import javax.sound.sampled.AudioFormat;
 

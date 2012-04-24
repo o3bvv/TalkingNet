@@ -5,8 +5,8 @@ import javax.sound.sampled.Mixer;
 import org.junit.Test;
 import talkingnet.core.io.Pullable;
 import talkingnet.core.io.channel.PullChannel;
-import talkingnet.utils.DefaultAudioFormat;
-import talkingnet.utils.DefaultMixerHolder;
+import talkingnet.utils.audio.DefaultAudioFormat;
+import talkingnet.utils.audio.DefaultMixerHolder;
 
 /**
  *

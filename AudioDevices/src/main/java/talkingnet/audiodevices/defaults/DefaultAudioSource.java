@@ -2,8 +2,8 @@ package talkingnet.audiodevices.defaults;
 
 import talkingnet.audiodevices.AudioSource;
 import talkingnet.core.io.channel.PushChannel;
-import talkingnet.utils.DefaultAudioFormat;
-import talkingnet.utils.DefaultMixerHolder;
+import talkingnet.utils.audio.DefaultAudioFormat;
+import talkingnet.utils.audio.DefaultMixerHolder;
 
 /**
  *
