@@ -1,12 +1,7 @@
 package talkingnet.core.io.channel;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.junit.AfterClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import org.junit.BeforeClass;
 import talkingnet.core.FooSink;
 
 /**
@@ -15,7 +10,7 @@ import talkingnet.core.FooSink;
  */
 public class PushChannelTest {
 
-    private FooSink sink = new FooSink();
+    private FooSink sink = new FooSink("Foo sink");
     private PushChannel channel = new PushChannel(sink);
     private byte[] array = {1, 3, 5, 0, 8, 6};
 

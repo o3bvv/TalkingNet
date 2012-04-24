@@ -7,11 +7,15 @@ import talkingnet.core.io.Pushable;
  *
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  */
-public class FooSink implements Pushable{
+public class FooSink extends Element implements Pushable{
+
+    public FooSink(String title) {
+        super(title);
+    }
 
     public void push_in(byte[] data, int length) {
-        System.out.printf("Taking up data. Size: %d.\n", length);
-        System.out.printf("Data: ");
+        System.out.printf("%s: Taking up data. Size: %d.\n", title, length);
+        System.out.printf("%s: Data: ", title);
         System.out.println(Arrays.toString(data));
     }
 }
