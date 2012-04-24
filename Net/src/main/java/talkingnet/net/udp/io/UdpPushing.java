@@ -1,4 +1,4 @@
-package talkingnet.net.udp;
+package talkingnet.net.udp.io;
 
 import java.net.DatagramPacket;
 

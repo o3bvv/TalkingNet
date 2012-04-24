@@ -1,4 +1,4 @@
-package talkingnet.net.udp.channel;
+package talkingnet.net.udp.io;
 
 import java.net.DatagramPacket;
 import talkingnet.core.io.Pushable;

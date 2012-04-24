@@ -1,9 +1,9 @@
 package talkingnet.net.udp;
 
+import talkingnet.net.udp.io.UdpPushable;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import talkingnet.net.udp.channel.UdpPushable;
 
 /**
  *

@@ -1,5 +1,6 @@
 package talkingnet.net.udp.channel;
 
+import talkingnet.net.udp.io.UdpPushable;
 import java.net.DatagramPacket;
 import talkingnet.core.io.channel.PushChannel;
 

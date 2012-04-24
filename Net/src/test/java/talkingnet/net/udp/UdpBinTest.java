@@ -1,12 +1,12 @@
 package talkingnet.net.udp;
 
+import talkingnet.net.udp.io.UdpPushable;
 import java.net.DatagramPacket;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.Arrays;
 import org.junit.Test;
 import talkingnet.net.udp.channel.UdpPushChannel;
-import talkingnet.net.udp.channel.UdpPushable;
 
 /**
  *
