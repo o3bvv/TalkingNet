@@ -1,6 +1,7 @@
 package talkingnet.core;
 
 import org.junit.Test;
+import talkingnet.utils.random.RandomNumbers;
 
 /**
  *
@@ -31,18 +32,10 @@ public class CopierTest {
     }
     
     private byte[] getRandomData(){
-        byte[] data = new byte[getRandom(20)];
+        byte[] data = new byte[RandomNumbers.getRandom(20)];
         for (int i = 0; i < data.length; i++) {
-            data[i] = getRandomPositiveByte();
+            data[i] = RandomNumbers.getRandomPositiveByte();
         }
         return data;
-    }
-    
-    private int getRandom(int edge){
-        return (int) Math.ceil(Math.random()*edge);
-    }
-    
-    private byte getRandomPositiveByte(){
-        return (byte) Math.ceil(Math.random()*Byte.MAX_VALUE);
     }
 }
