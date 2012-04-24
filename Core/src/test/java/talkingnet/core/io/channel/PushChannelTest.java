@@ -2,7 +2,7 @@ package talkingnet.core.io.channel;
 
 import java.io.IOException;
 import org.junit.Test;
-import talkingnet.core.FooSink;
+import talkingnet.core.foo.sink.FooSink;
 
 /**
  *

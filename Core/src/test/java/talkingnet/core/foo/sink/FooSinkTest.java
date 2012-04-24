@@ -1,4 +1,4 @@
-package talkingnet.core;
+package talkingnet.core.foo.sink;
 
 import org.junit.Test;
 

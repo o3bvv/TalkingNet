@@ -1,7 +1,8 @@
-package talkingnet.core;
+package talkingnet.core.foo.sink;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
+import talkingnet.core.Element;
 import talkingnet.core.io.Pushable;
 
 /**

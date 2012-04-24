@@ -1,5 +1,6 @@
 package talkingnet.core;
 
+import talkingnet.core.foo.sink.FooSink;
 import org.junit.Test;
 import talkingnet.utils.random.RandomData;
 
