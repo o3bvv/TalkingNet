@@ -1,5 +1,6 @@
 package talkingnet.core;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import talkingnet.core.io.Pushable;
 
@@ -14,8 +15,10 @@ public class FooSink extends Element implements Pushable{
     }
 
     public void push_in(byte[] data, int length) {
-        System.out.printf("%s: Taking up data. Size: %d.\n", title, length);
-        System.out.printf("%s: Data: ", title);
+        System.out.printf("[%s] %s", 
+                new Timestamp(System.currentTimeMillis()), title);
+        System.out.printf("\tTaking up data. Size: %d.\n", length);
+        System.out.printf("\tData: ");
         System.out.println(Arrays.toString(data));
     }
 }
