@@ -13,7 +13,7 @@ import talkingnet.utils.random.RandomData;
 public class FooSource extends Element implements Pushing{
 
     private PushChannel channel_out;
-    private GeneratingThread thread;
+    private Thread thread;
     private boolean runThread = false;
     
     public FooSource(PushChannel channel_out, String title) {
@@ -34,8 +34,12 @@ public class FooSource extends Element implements Pushing{
             return;
         }
 
-        thread = new GeneratingThread();
+        thread = getNewThread();
         thread.start();
+    }
+    
+    protected Thread getNewThread(){
+        return new GeneratingThread();
     }
 
     public void stop() {
