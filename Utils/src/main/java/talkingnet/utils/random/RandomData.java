@@ -11,7 +11,7 @@ public class RandomData {
         return getRandomDataFixedLength(length);
     }
 
-    public static byte[] getRandomDataOddLength(int lengthEdge) {
+    public static byte[] getRandomDataEvenLength(int lengthEdge) {
         int length = RandomNumbers.getRandom(lengthEdge);
         length -= length % 2;
         return getRandomDataFixedLength(length);
