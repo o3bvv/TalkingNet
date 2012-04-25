@@ -1,5 +1,6 @@
-package talkingnet.codec.g711;
+package talkingnet.codecs.g711;
 
+import talkingnet.codecs.g711.G711UlawEncoder;
 import java.util.Arrays;
 import org.junit.Test;
 

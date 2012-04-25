@@ -1,6 +1,6 @@
-package talkingnet.codec.g711;
+package talkingnet.codecs.g711;
 
-import talkingnet.codec.Encoder;
+import talkingnet.codecs.Encoder;
 
 /**
  *

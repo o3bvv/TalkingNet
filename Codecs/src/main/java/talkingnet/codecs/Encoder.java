@@ -1,4 +1,4 @@
-package talkingnet.codec;
+package talkingnet.codecs;
 
 /**
  *

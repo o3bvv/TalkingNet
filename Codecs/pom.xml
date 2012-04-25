@@ -8,9 +8,9 @@
         <version>1.0</version>
     </parent>
     <groupId>talkingnet</groupId>
-    <artifactId>Codec</artifactId>
+    <artifactId>Codecs</artifactId>
     <version>1.0</version>
-    <name>Codec</name>
+    <name>Codecs</name>
     <url>http://maven.apache.org</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
