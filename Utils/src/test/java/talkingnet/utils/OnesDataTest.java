@@ -1,7 +1,7 @@
 package talkingnet.utils;
 
+import java.util.Arrays;
 import org.junit.Test;
-import talkingnet.core.foo.sink.FooSink;
 
 /**
  *
@@ -10,9 +10,8 @@ import talkingnet.core.foo.sink.FooSink;
 public class OnesDataTest {
     
     @Test
-    public void testOnesData() {
-        FooSink sink = new FooSink("sink");
+    public void testOnesData() {        
         byte[] data = OnesData.getOnesData(15);
-        sink.push_in(data, data.length);
+        System.out.println("Ones data: "+Arrays.toString(data));
     }
 }
