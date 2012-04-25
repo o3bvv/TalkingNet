@@ -59,6 +59,17 @@ public class UdpBin extends Element implements UdpPushable {
         }
     }
     
+    public UdpBin(SocketAddress localAddress, SocketAddress remoteAddress, UdpPushable udpSink, int bufferLength, String title) {
+        super(title);
+        try {
+            socket = new DatagramSocket(localAddress);
+            socket.connect(remoteAddress);
+            createElements(udpSink, bufferLength);
+        } catch (SocketException ex) {
+            System.out.println(title+":"+ex);
+        }
+    }
+    
     private void createElements(UdpPushable udpSink, int bufferLength){
         source = new UdpSource(socket, udpSink, bufferLength, title+"_src");
         sink = new UdpSink(socket, title+"_sink");
