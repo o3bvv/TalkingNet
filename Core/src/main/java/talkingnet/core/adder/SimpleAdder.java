@@ -1,11 +1,10 @@
 package talkingnet.core.adder;
 
-import java.io.IOException;
 import java.util.Collection;
 import talkingnet.core.Element;
 import talkingnet.core.io.Multipushable;
+import talkingnet.core.io.Pushable;
 import talkingnet.core.io.Pushing;
-import talkingnet.core.io.channel.PushChannel;
 
 /**
  *
@@ -13,14 +12,14 @@ import talkingnet.core.io.channel.PushChannel;
  */
 public class SimpleAdder extends Element implements Multipushable, Pushing {
 
-    private PushChannel channel_out;
+    private Pushable sink;
     byte[] buffer;
     private int bufferSize;
 
-    public SimpleAdder(int bufferSize, PushChannel channel_out, String title) {
+    public SimpleAdder(int bufferSize, Pushable sink, String title) {
         super(title);
         this.bufferSize = bufferSize;
-        this.channel_out = channel_out;
+        this.sink = sink;
     }
 
     public void multipush_in(Collection<byte[]> data) {
@@ -38,10 +37,6 @@ public class SimpleAdder extends Element implements Multipushable, Pushing {
     }
 
     public void push_out(byte[] data, int size) {
-        try {
-            channel_out.write(data, data.length);
-        } catch (IOException ex) {
-            System.out.println(title + ": " + ex);
-        }
+        sink.push_in(data, size);
     }
 }

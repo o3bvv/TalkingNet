@@ -7,7 +7,6 @@ import talkingnet.core.Element;
 import talkingnet.core.foo.sink.FooSink;
 import talkingnet.core.io.Multipushable;
 import talkingnet.core.io.Multipushing;
-import talkingnet.core.io.channel.PushChannel;
 import talkingnet.utils.OnesData;
 
 /**
@@ -20,14 +19,12 @@ public class SimpleAdderTest {
     private int sourcesCount = 5;
     
     private FooSink sink;
-    private PushChannel adderToSink;
     private SimpleAdder adder;
     private MultiOnesSource source;
     
     {
         sink = new FooSink("sink");
-        adderToSink = new PushChannel(sink);
-        adder = new SimpleAdder(dataLength, adderToSink, "adder");
+        adder = new SimpleAdder(dataLength, sink, "adder");
         source = new MultiOnesSource(dataLength, adder, "multisource");
     }
     
