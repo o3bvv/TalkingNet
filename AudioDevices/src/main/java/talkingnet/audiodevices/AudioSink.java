@@ -1,10 +1,9 @@
 package talkingnet.audiodevices;
 
-import java.io.IOException;
 import javax.sound.sampled.*;
+import talkingnet.core.io.Pullable;
 import talkingnet.core.io.Pulling;
 import talkingnet.core.io.Pushing;
-import talkingnet.core.io.channel.PullChannel;
 
 /**
  *
@@ -12,24 +11,24 @@ import talkingnet.core.io.channel.PullChannel;
  */
 public class AudioSink extends AudioDevice implements Pulling{
     
-    protected PullChannel channel_in;
+    protected Pullable source;
     
     public AudioSink(
             Mixer mixer, AudioFormat format, int bufferLength,
-            PullChannel channel_in, String title) {
+            Pullable source, String title) {
         super(mixer, format, bufferLength,title);
-        this.channel_in = channel_in;
+        this.source = source;
         internalBufferScale = 1;
     }
     
     @Override
     protected void startThread() {
-        if (thread != null && (thread.isTerminating() || channel_in == null)) {
+        if (thread != null && (thread.isTerminating() || source == null)) {
             thread.terminate();
             thread = null;
         }
 
-        if ((thread == null) && (channel_in != null)) {
+        if ((thread == null) && (source != null)) {
             thread = new PushingThread();
             thread.start();
         }
@@ -56,12 +55,7 @@ public class AudioSink extends AudioDevice implements Pulling{
     
     @Override
     public int pull_in(byte[] data, int size) {
-        try {
-            return channel_in.read(data, size);
-        } catch (IOException ex) {
-            System.out.println(ex);
-        }
-        return -1;
+        return source.pull_out(data, size);
     }
     
     private class PushingThread extends ProcessingThread implements Pushing {

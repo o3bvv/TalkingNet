@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.sound.sampled.*;
 import talkingnet.core.io.Pulling;
+import talkingnet.core.io.Pushable;
 import talkingnet.core.io.Pushing;
-import talkingnet.core.io.channel.PushChannel;
 
 /**
  *
@@ -13,32 +13,28 @@ import talkingnet.core.io.channel.PushChannel;
  */
 public class AudioSource extends AudioDevice implements Pushing {
 
-    protected PushChannel channel_out;
+    protected Pushable sink;
 
     public AudioSource(
             Mixer mixer, AudioFormat format, int bufferLength,
-            PushChannel channel_out, String title) {
+            Pushable sink, String title) {
         super(mixer, format, bufferLength, title);
-        this.channel_out = channel_out;
+        this.sink = sink;
     }
 
     @Override
     public void push_out(byte[] data, int size) {
-        try {
-            channel_out.write(data, size);
-        } catch (IOException ex) {
-            System.out.println(ex);
-        }
+        sink.push_in(data, size);
     }
 
     @Override
     protected void startThread() {
-        if (thread != null && (thread.isTerminating() || channel_out == null)) {
+        if (thread != null && (thread.isTerminating() || sink == null)) {
             thread.terminate();
             thread = null;
         }
 
-        if ((thread == null) && (channel_out != null)) {
+        if ((thread == null) && (sink != null)) {
             thread = new PullingThread();
             thread.start();
         }
