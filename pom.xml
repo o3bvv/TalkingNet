@@ -13,5 +13,6 @@
         <module>AudioDevices</module>
         <module>Net</module>
         <module>Codecs</module>
-    </modules>
+    <module>Examples</module>
+  </modules>
 </project>
