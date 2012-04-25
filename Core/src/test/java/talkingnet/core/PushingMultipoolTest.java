@@ -7,7 +7,6 @@ import talkingnet.core.adder.SimpleAdder;
 import talkingnet.core.foo.sink.FooSink;
 import talkingnet.core.foo.source.FooSource;
 import talkingnet.core.io.Pushable;
-import talkingnet.core.io.channel.PushChannel;
 import talkingnet.utils.OnesData;
 import talkingnet.utils.random.RandomNumbers;
 
@@ -22,14 +21,12 @@ public class PushingMultipoolTest {
     private PushingMultipool multipool;
     private SimpleAdder adder;
     private FooSink sink;
-    private PushChannel adderToSink;
     
     private List<RandomTimeFixedSizeOnesGenerator> sources;
 
     {
         sink = new FooSink("sink");
-        adderToSink = new PushChannel(sink);
-        adder = new SimpleAdder(bufferSize, adderToSink, "adder");
+        adder = new SimpleAdder(bufferSize, sink, "adder");
         multipool = new PushingMultipool(bufferSize, adder, "multipool");
         
         sources = new LinkedList<RandomTimeFixedSizeOnesGenerator>();
@@ -42,9 +39,8 @@ public class PushingMultipoolTest {
         
         for (int i = 0; i < 50; i++) {
             Pushable poolSink = multipool.getNewSink();
-            PushChannel sourceToPool = new PushChannel(poolSink);
             RandomTimeFixedSizeOnesGenerator source = 
-                    new RandomTimeFixedSizeOnesGenerator(sourceToPool, "source"+(i+1));
+                    new RandomTimeFixedSizeOnesGenerator(poolSink, "source"+(i+1));
             sources.add(source);
             source.start();
         }
@@ -60,8 +56,8 @@ public class PushingMultipoolTest {
 
     private class RandomTimeFixedSizeOnesGenerator extends FooSource {
 
-        public RandomTimeFixedSizeOnesGenerator(PushChannel channel_out, String title) {
-            super(channel_out, title);
+        public RandomTimeFixedSizeOnesGenerator(Pushable sink, String title) {
+            super(sink, title);
         }
 
         @Override
