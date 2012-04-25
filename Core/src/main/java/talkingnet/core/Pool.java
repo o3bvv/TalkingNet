@@ -32,7 +32,7 @@ public class Pool extends Element implements Pushable, Pullable {
         return size;
     }
     
-    public void reset(){
+    public void flush(){
         queue.clear();
     }
 }
