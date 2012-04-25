@@ -4,7 +4,7 @@ package talkingnet.codecs;
  *
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  */
-public interface Decoder {
+public interface Decompressor {
     
-    public byte[] decode(byte[] data);
+    public byte[] decompress(byte[] data);
 }

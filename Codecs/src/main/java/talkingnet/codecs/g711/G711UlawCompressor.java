@@ -1,12 +1,12 @@
 package talkingnet.codecs.g711;
 
-import talkingnet.codecs.Encoder;
+import talkingnet.codecs.Compressor;
 
 /**
  *
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  */
-public class G711UlawEncoder implements Encoder {
+public class G711UlawCompressor implements Compressor {
 
     private final static int cBias = 0x84;
     private static short seg_end[] = new short[]{
@@ -14,7 +14,7 @@ public class G711UlawEncoder implements Encoder {
 
     
     @Override
-    public byte[] encode(byte[] src) {
+    public byte[] compress(byte[] src) {
         byte[] result = new byte[src.length >> 1];
         process(src, result);
         return result;

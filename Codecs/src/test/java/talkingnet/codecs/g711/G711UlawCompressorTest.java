@@ -1,6 +1,5 @@
 package talkingnet.codecs.g711;
 
-import talkingnet.codecs.g711.G711UlawEncoder;
 import java.util.Arrays;
 import org.junit.Test;
 
@@ -8,14 +7,14 @@ import org.junit.Test;
  *
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  */
-public class G711UlawEncoderTest {
+public class G711UlawCompressorTest {
     
-    private G711UlawEncoder encoder = new G711UlawEncoder();
+    private G711UlawCompressor compressor = new G711UlawCompressor();
     
     @Test
     public void testEncode() {
         byte[] src = {1, -2, 4, -8, 16, 32};
-        byte[] dst = encoder.encode(src);
+        byte[] dst = compressor.compress(src);
         System.out.println(Arrays.toString(dst));
     }
 }
