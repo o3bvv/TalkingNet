@@ -11,4 +11,7 @@
     <version>1.0</version>
     <packaging>pom</packaging>
     <name>Examples</name>
+  <modules>
+    <module>SimpleConference</module>
+  </modules>
 </project>
