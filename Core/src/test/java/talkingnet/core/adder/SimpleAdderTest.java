@@ -1,5 +1,7 @@
 package talkingnet.core.adder;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import org.junit.Test;
 import talkingnet.core.Element;
 import talkingnet.core.foo.sink.FooSink;
@@ -45,19 +47,20 @@ public class SimpleAdderTest {
             this.sink = sink;
         }
 
-        public void multipush_out(byte[][] data) {
+        public void multipush_out(Collection<byte[]> data) {
             sink.multipush_in(data);
         }  
         
         public void generateData(int srcCount){
-            byte[][] data = new byte[srcCount][bufferSize];
-            for (int i = 0; i < data.length; i++) {
-                OnesData.fillDataWithOnes(data[i]);
+            Collection<byte[]> dataList = new ArrayList<byte[]>();
+            for (int i=0; i<srcCount; i++) {
+                byte[] data = OnesData.getOnesData(bufferSize);
+                dataList.add(data);
             }
             System.out.printf(
                     "Generated %d bytes length data for %d sources.\n",
                     bufferSize, srcCount);
-            multipush_out(data);
+            multipush_out(dataList);
         }
     }
 }

@@ -1,6 +1,7 @@
 package talkingnet.core.adder;
 
 import java.io.IOException;
+import java.util.Collection;
 import talkingnet.core.Element;
 import talkingnet.core.io.Multipushable;
 import talkingnet.core.io.Pushing;
@@ -13,7 +14,6 @@ import talkingnet.core.io.channel.PushChannel;
 public class SimpleAdder extends Element implements Multipushable, Pushing {
 
     private PushChannel channel_out;
-    
     byte[] buffer;
     private int bufferSize;
 
@@ -23,16 +23,16 @@ public class SimpleAdder extends Element implements Multipushable, Pushing {
         this.channel_out = channel_out;
     }
 
-    public void multipush_in(byte[][] data) {
+    public void multipush_in(Collection<byte[]> data) {
         buffer = new byte[bufferSize];
         multiadd(data);
         push_out(buffer, buffer.length);
     }
-    
-    private void multiadd(byte[][] data){
-        for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < buffer.length; j++) {
-                buffer[j] += data[i][j];
+
+    private void multiadd(Collection<byte[]> dataList) {
+        for (byte[] data : dataList) {
+            for (int i = 0; i < buffer.length; i++) {
+                buffer[i] += data[i];
             }
         }
     }
