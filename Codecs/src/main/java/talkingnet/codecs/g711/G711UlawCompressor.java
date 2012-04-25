@@ -1,18 +1,26 @@
 package talkingnet.codecs.g711;
 
 import talkingnet.codecs.Compressor;
+import talkingnet.core.Element;
+import talkingnet.core.io.Pushable;
 
 /**
  *
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  * @see http://code.google.com/p/codecg711/source/browse/trunk/CodecG711/src/org/mobicents/media/server/impl/dsp/audio/g711/ulaw/Encoder.java
  */
-public class G711UlawCompressor implements Compressor {
+public class G711UlawCompressor extends Element implements Compressor, Pushable {
 
+    private Pushable sink;
+    
     private final static int cBias = 0x84;
     private static short seg_end[] = new short[]{
         0xFF, 0x1FF, 0x3FF, 0x7FF, 0xFFF, 0x1FFF, 0x3FFF, 0x7FFF};
 
+    public G711UlawCompressor(Pushable sink, String title) {
+        super(title);
+        this.sink = sink;
+    }
     
     @Override
     public byte[] compress(byte[] src) {
@@ -62,5 +70,10 @@ public class G711UlawCompressor implements Compressor {
             }
         }
         return (size);
+    }
+
+    public void push_in(byte[] data, int size) {
+        byte[] compressed = compress(data);
+        sink.push_in(compressed, compressed.length);
     }
 }

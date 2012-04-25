@@ -10,10 +10,16 @@ import talkingnet.utils.random.RandomData;
  */
 public class G711UlawDecompressorTest {
     
-    private G711UlawDecompressor decompressor = new G711UlawDecompressor();
-    private G711UlawCompressor compressor = new G711UlawCompressor();
-    private FooSink sink = new FooSink("sink");
+    private G711UlawDecompressor decompressor;
+    private G711UlawCompressor compressor;
+    private FooSink sink;
 
+    {
+        sink = new FooSink("sink");
+        decompressor = new G711UlawDecompressor(sink, "decompressor");
+        compressor = new G711UlawCompressor(decompressor, "compressor");
+    }
+    
     @Test
     public void testG711UlawDecompressor() {
         for (int i = 1; i < 4; i++) {
@@ -23,11 +29,8 @@ public class G711UlawDecompressorTest {
     }
     
     private void testCodec(){
-        byte[] src = RandomData.getRandomDataEvenLength(40);
-        sink.push_in(src, src.length);
-        byte[] compressed = compressor.compress(src);
-        sink.push_in(compressed, compressed.length);
-        byte[] restored = decompressor.decompress(compressed);
-        sink.push_in(restored, restored.length);
+        byte[] src = RandomData.getRandomDataEvenLength(40);        
+        sink.push_in(src, src.length);        
+        compressor.push_in(src, src.length);
     }
 }

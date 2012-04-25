@@ -1,19 +1,28 @@
 package talkingnet.codecs.g711;
 
 import talkingnet.codecs.Decompressor;
+import talkingnet.core.Element;
+import talkingnet.core.io.Pushable;
 
 /**
  *
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  * @see http://code.google.com/p/codecg711/source/browse/trunk/CodecG711/src/org/mobicents/media/server/impl/dsp/audio/g711/ulaw/Decoder.java
  */
-public class G711UlawDecompressor implements Decompressor {
+public class G711UlawDecompressor extends Element implements Decompressor, Pushable {
 
+    private Pushable sink;
+    
     private final static int cBias = 0x84;
     private int QUANT_MASK = 0xF;
     private final static int SEG_SHIFT = 4;
     private final static int SEG_MASK = 0x70;
     private final static int SIGN_BIT = 0x80;
+
+    public G711UlawDecompressor(Pushable sink, String title) {
+        super(title);
+        this.sink = sink;
+    }
     
     @Override
     public byte[] decompress(byte[] src) {
@@ -41,5 +50,10 @@ public class G711UlawDecompressor implements Decompressor {
 
         boolean s = (u_val & SIGN_BIT) == SIGN_BIT;
         return (short) (s ? (cBias - t) : (t - cBias));
+    }
+
+    public void push_in(byte[] data, int size) {
+        byte[] decompressed = decompress(data);
+        sink.push_in(decompressed, decompressed.length);
     }
 }

@@ -1,7 +1,7 @@
 package talkingnet.codecs.g711;
 
-import java.util.Arrays;
 import org.junit.Test;
+import talkingnet.core.foo.sink.FooSink;
 
 /**
  *
@@ -9,12 +9,17 @@ import org.junit.Test;
  */
 public class G711UlawCompressorTest {
     
-    private G711UlawCompressor compressor = new G711UlawCompressor();
+    private FooSink sink;
+    private G711UlawCompressor compressor;
+    
+    {
+        sink = new FooSink("sink");
+        compressor = new G711UlawCompressor(sink, "compressor");
+    }
     
     @Test
     public void testEncode() {
         byte[] src = {1, -2, 4, -8, 16, 32};
-        byte[] dst = compressor.compress(src);
-        System.out.println(Arrays.toString(dst));
+        compressor.compress(src);
     }
 }
