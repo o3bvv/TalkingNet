@@ -14,7 +14,7 @@ public class FooSource extends Element implements Pushing{
 
     private PushChannel channel_out;
     private Thread thread;
-    private boolean runThread = false;
+    protected boolean runThread = false;
     
     public FooSource(PushChannel channel_out, String title) {
         super(title);
