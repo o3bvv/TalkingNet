@@ -1,10 +1,8 @@
 package talkingnet.core;
 
-import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import talkingnet.core.io.Pushable;
 import talkingnet.core.io.Pushing;
-import talkingnet.core.io.channel.PushChannel;
 
 /**
  *
@@ -12,7 +10,7 @@ import talkingnet.core.io.channel.PushChannel;
  */
 public class Pump extends Element implements Pushable, Pushing {
 
-    private PushChannel channel_out;
+    private Pushable sink;
     private final ConcurrentLinkedQueue<byte[]> queue =
             new ConcurrentLinkedQueue<byte[]>();
     private PumpingThread thread;
@@ -20,9 +18,9 @@ public class Pump extends Element implements Pushable, Pushing {
     private boolean stopForced = false;
     private boolean stopped = false;
 
-    public Pump(PushChannel channel_out, String title) {
+    public Pump(Pushable sink, String title) {
         super(title);
-        this.channel_out = channel_out;
+        this.sink = sink;
     }
 
     @Override
@@ -35,11 +33,7 @@ public class Pump extends Element implements Pushable, Pushing {
 
     @Override
     public void push_out(byte[] data, int size) {
-        try {
-            channel_out.write(data, size);
-        } catch (IOException ex) {
-            System.out.println(title + ": " + ex);
-        }
+        sink.push_in(data, size);
     }
 
     public void start() {
