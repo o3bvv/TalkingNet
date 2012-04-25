@@ -13,6 +13,8 @@ public class G711UlawCompressor extends Element implements Compressor, Pushable 
 
     private Pushable sink;
     
+    public final static int COMPRESSION_RATE = 2;
+    
     private final static int cBias = 0x84;
     private static short seg_end[] = new short[]{
         0xFF, 0x1FF, 0x3FF, 0x7FF, 0xFFF, 0x1FFF, 0x3FFF, 0x7FFF};
