@@ -6,5 +6,5 @@ package talkingnet.core.io;
  */
 public interface Pullable {
     
-    void pull_out(byte[] data, int size);
+    int pull_out(byte[] data, int size);
 }

@@ -21,7 +21,7 @@ public class Pool extends Element implements Pushable, Pullable {
         queue.add(data);
     }
 
-    public void pull_out(byte[] data, int size) {
+    public int pull_out(byte[] data, int size) {
         byte[] result;
         if (queue.isEmpty()) {
             result = new byte[size];
@@ -29,6 +29,7 @@ public class Pool extends Element implements Pushable, Pullable {
             result = queue.poll();
         }
         System.arraycopy(result, 0, data, 0, size);
+        return size;
     }
     
     public void reset(){

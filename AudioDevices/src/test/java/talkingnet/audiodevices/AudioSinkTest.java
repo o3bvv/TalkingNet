@@ -62,8 +62,9 @@ public class AudioSinkTest {
             }
         }
         
-        public void pull_out(byte[] data, int size) {
+        public int pull_out(byte[] data, int size) {
             System.arraycopy(buffer, 0, data, 0, size);
+            return size;
         }
     }
 }
