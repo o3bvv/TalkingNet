@@ -5,6 +5,7 @@ import talkingnet.codecs.Compressor;
 /**
  *
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
+ * @see http://code.google.com/p/codecg711/source/browse/trunk/CodecG711/src/org/mobicents/media/server/impl/dsp/audio/g711/ulaw/Encoder.java
  */
 public class G711UlawCompressor implements Compressor {
 
