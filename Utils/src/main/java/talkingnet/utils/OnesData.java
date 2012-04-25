@@ -10,9 +10,13 @@ public class OnesData {
     
     public static byte[] getOnesData(int length){
         byte[] data = new byte[length];
+        fillDataWithOnes(data);
+        return data;
+    }
+    
+    public static void fillDataWithOnes(byte[] data){
         for (int i = 0; i < data.length; i++) {
             data[i] = ONE;
         }
-        return data;
     }
 }
