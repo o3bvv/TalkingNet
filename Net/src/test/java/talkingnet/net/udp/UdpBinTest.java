@@ -1,12 +1,11 @@
 package talkingnet.net.udp;
 
-import talkingnet.net.udp.io.UdpPushable;
 import java.net.DatagramPacket;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.Arrays;
 import org.junit.Test;
-import talkingnet.net.udp.channel.UdpPushChannel;
+import talkingnet.net.udp.io.UdpPushable;
 
 /**
  *
@@ -40,9 +39,8 @@ public class UdpBinTest {
         };
         
         SocketAddress peerAddress = new InetSocketAddress("127.0.0.1", slavePort);
-        UdpPushChannel channel = new UdpPushChannel(fooSink);
         masterBin = new UdpBin(
-                peerAddress, masterPort, channel, buffer.length, "masterBin");
+                peerAddress, masterPort, fooSink, buffer.length, "masterBin");
     }
 
     private void initSlaveBin() {
@@ -58,9 +56,8 @@ public class UdpBinTest {
         };
         
         SocketAddress peerAddress = new InetSocketAddress("127.0.0.1", masterPort);
-        UdpPushChannel channel = new UdpPushChannel(fooSink);
         slaveBin = new UdpBin(
-                peerAddress, slavePort, channel, buffer.length, "slaveBin");
+                peerAddress, slavePort, fooSink, buffer.length, "slaveBin");
     }
 
     @Test

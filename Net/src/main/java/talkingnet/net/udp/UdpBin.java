@@ -1,12 +1,11 @@
 package talkingnet.net.udp;
 
-import talkingnet.net.udp.io.UdpPushable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketAddress;
 import java.net.SocketException;
 import talkingnet.core.Element;
-import talkingnet.net.udp.channel.UdpPushChannel;
+import talkingnet.net.udp.io.UdpPushable;
 
 /**
  *
@@ -18,50 +17,50 @@ public class UdpBin extends Element implements UdpPushable {
     private UdpSource source;
     private DatagramSocket socket;
     
-    public UdpBin(UdpPushChannel channel, int bufferLength, String title) {
+    public UdpBin(UdpPushable udpSink, int bufferLength, String title) {
         super(title);
         try {
             socket = new DatagramSocket();
-            createElements(channel, bufferLength);
+            createElements(udpSink, bufferLength);
         } catch (SocketException ex) {
             System.out.println(title+":"+ex);
         }
     }
     
-    public UdpBin(int port, UdpPushChannel channel, int bufferLength, String title) {
+    public UdpBin(int port, UdpPushable udpSink, int bufferLength, String title) {
         super(title);
         try {
             socket = new DatagramSocket(port);
-            createElements(channel, bufferLength);
+            createElements(udpSink, bufferLength);
         } catch (SocketException ex) {
             System.out.println(title+":"+ex);
         }
     }
     
-    public UdpBin(SocketAddress address, UdpPushChannel channel, int bufferLength, String title) {
+    public UdpBin(SocketAddress address, UdpPushable udpSink, int bufferLength, String title) {
         super(title);
         try {
             socket = new DatagramSocket();
             socket.connect(address);
-            createElements(channel, bufferLength);
+            createElements(udpSink, bufferLength);
         } catch (SocketException ex) {
             System.out.println(title+":"+ex);
         }
     }
 
-    public UdpBin(SocketAddress address, int port, UdpPushChannel channel, int bufferLength, String title) {
+    public UdpBin(SocketAddress address, int port, UdpPushable udpSink, int bufferLength, String title) {
         super(title);
         try {
             socket = new DatagramSocket(port);
             socket.connect(address);
-            createElements(channel, bufferLength);
+            createElements(udpSink, bufferLength);
         } catch (SocketException ex) {
             System.out.println(title+":"+ex);
         }
     }
     
-    private void createElements(UdpPushChannel channel, int bufferLength){
-        source = new UdpSource(socket, channel, bufferLength, title+"_src");
+    private void createElements(UdpPushable udpSink, int bufferLength){
+        source = new UdpSource(socket, udpSink, bufferLength, title+"_src");
         sink = new UdpSink(socket, title+"_sink");
     }
     

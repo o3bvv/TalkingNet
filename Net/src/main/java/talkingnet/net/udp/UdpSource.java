@@ -1,10 +1,10 @@
 package talkingnet.net.udp;
 
-import talkingnet.net.udp.io.UdpPushing;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import talkingnet.net.udp.channel.UdpPushChannel;
+import talkingnet.net.udp.io.UdpPushable;
+import talkingnet.net.udp.io.UdpPushing;
 
 /**
  *
@@ -14,13 +14,13 @@ public class UdpSource extends UdpElement implements UdpPushing {
 
     private PullingThread thread;
     private int bufferLength;
-    private UdpPushChannel channel_out;
+    private UdpPushable sink;
     private boolean doProcessing = false;
 
-    public UdpSource(DatagramSocket socket, UdpPushChannel channel, int bufferLength, String title) {
+    public UdpSource(DatagramSocket socket, UdpPushable sink, int bufferLength, String title) {
         super(socket, title);
         this.socket = socket;
-        this.channel_out = channel;
+        this.sink = sink;
         this.bufferLength = bufferLength;
     }
 
@@ -40,7 +40,7 @@ public class UdpSource extends UdpElement implements UdpPushing {
 
     @Override
     public void push_out(DatagramPacket packet) {
-        channel_out.write(packet);
+        sink.push_in(packet);
     }
 
     private class PullingThread extends Thread {

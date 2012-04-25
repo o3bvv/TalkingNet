@@ -5,7 +5,7 @@ import java.net.SocketAddress;
 import java.net.SocketException;
 import talkingnet.core.Element;
 import talkingnet.core.io.Pushable;
-import talkingnet.net.udp.channel.UdpPushChannel;
+import talkingnet.net.udp.io.UdpPushable;
 import talkingnet.net.udp.io.UdpPushing;
 
 /**
@@ -14,15 +14,15 @@ import talkingnet.net.udp.io.UdpPushing;
  */
 public class UdpDataWrapper extends Element implements Pushable, UdpPushing{
 
-    private UdpPushChannel channel_out;
+    private UdpPushable sink;
     private SocketAddress dstAddress;
     
     public UdpDataWrapper(
-            SocketAddress dstAddress, UdpPushChannel channel_out, String title) {
+            SocketAddress dstAddress, UdpPushable sink, String title) {
         
         super(title);
         this.dstAddress  = dstAddress;
-        this.channel_out = channel_out;
+        this.sink = sink;
     }
 
     public void push_in(byte[] data, int size) {
@@ -35,6 +35,6 @@ public class UdpDataWrapper extends Element implements Pushable, UdpPushing{
     }
 
     public void push_out(DatagramPacket packet) {
-        channel_out.write(packet);
+        sink.push_in(packet);
     }    
 }

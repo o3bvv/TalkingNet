@@ -6,8 +6,7 @@ import java.net.SocketException;
 import org.junit.Test;
 import talkingnet.core.Element;
 import talkingnet.core.foo.sink.FooSink;
-import talkingnet.core.io.channel.PushChannel;
-import talkingnet.net.udp.channel.UdpPushChannel;
+import talkingnet.net.udp.io.UdpPushable;
 import talkingnet.net.udp.io.UdpPushing;
 import talkingnet.utils.random.RandomData;
 import talkingnet.utils.random.RandomNumbers;
@@ -20,8 +19,6 @@ public class UdpDataFilterTest {
 
     private UdpDataFilter filter;
     private FooSink sink;
-    private PushChannel filterToSink;
-    private UdpPushChannel srcToFilter;
     private RandomAddressAndDataUdpSource source;
     private InetSocketAddress[] addresses;
 
@@ -48,18 +45,14 @@ public class UdpDataFilterTest {
     }
 
     private void initChain() {
-        sink = new FooSink("sink");
-        filterToSink = new PushChannel(sink);
-        
+        sink = new FooSink("sink");        
         initFilter();
-        
-        srcToFilter = new UdpPushChannel(filter);
-        source = new RandomAddressAndDataUdpSource(srcToFilter, "src");
+        source = new RandomAddressAndDataUdpSource(filter, "src");
     }
     
     private void initFilter(){
         InetSocketAddress address = getRandomAddress();
-        filter = new UdpDataFilter(address, filterToSink, "filter");
+        filter = new UdpDataFilter(address, sink, "filter");
         System.out.printf("! Filtering address [%s:%d].\n\n",
                             address.getHostString(), address.getPort());
     }
@@ -70,17 +63,17 @@ public class UdpDataFilterTest {
 
     private class RandomAddressAndDataUdpSource extends Element implements UdpPushing {
 
-        private UdpPushChannel channel_out;
+        private UdpPushable sink;
         private GeneratingThread thread;
         private boolean runThread = false;
 
-        public RandomAddressAndDataUdpSource(UdpPushChannel channel_out, String title) {
+        public RandomAddressAndDataUdpSource(UdpPushable sink, String title) {
             super(title);
-            this.channel_out = channel_out;
+            this.sink = sink;
         }
 
         public void push_out(DatagramPacket packet) {
-            channel_out.write(packet);
+            sink.push_in(packet);
         }
 
         public void start() {

@@ -1,11 +1,10 @@
 package talkingnet.net.udp;
 
-import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.SocketAddress;
 import talkingnet.core.Element;
+import talkingnet.core.io.Pushable;
 import talkingnet.core.io.Pushing;
-import talkingnet.core.io.channel.PushChannel;
 import talkingnet.net.udp.io.UdpPushable;
 
 /**
@@ -14,17 +13,17 @@ import talkingnet.net.udp.io.UdpPushable;
  */
 public class UdpDataFilter extends Element implements UdpPushable, Pushing {
 
-    private PushChannel channel_out;
+    private Pushable sink;
     private SocketAddress filteringAddress;
 
     public UdpDataFilter(
             SocketAddress filteringAddress,
-            PushChannel channel_out,
+            Pushable sink,
             String title) {
         
         super(title);
         this.filteringAddress = filteringAddress;
-        this.channel_out = channel_out;
+        this.sink = sink;
     }
 
     public void push_in(DatagramPacket packet) {
@@ -38,11 +37,7 @@ public class UdpDataFilter extends Element implements UdpPushable, Pushing {
     }
 
     public void push_out(byte[] data, int size) {
-        try {
-            channel_out.write(data, size);
-        } catch (IOException ex) {
-            System.out.println(title+": "+ex);
-        }
+        sink.push_in(data, size);
     }
 
     public SocketAddress getFilteringAddress() {
