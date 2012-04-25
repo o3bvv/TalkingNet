@@ -1,9 +1,8 @@
 package talkingnet.core.foo.source;
 
-import java.io.IOException;
 import talkingnet.core.Element;
+import talkingnet.core.io.Pushable;
 import talkingnet.core.io.Pushing;
-import talkingnet.core.io.channel.PushChannel;
 import talkingnet.utils.random.RandomData;
 
 /**
@@ -12,21 +11,17 @@ import talkingnet.utils.random.RandomData;
  */
 public class FooSource extends Element implements Pushing{
 
-    private PushChannel channel_out;
+    private Pushable sink;
     private Thread thread;
     protected boolean runThread = false;
     
-    public FooSource(PushChannel channel_out, String title) {
+    public FooSource(Pushable sink, String title) {
         super(title);
-        this.channel_out = channel_out;
+        this.sink = sink;
     }
 
     public void push_out(byte[] data, int size) {
-        try {
-            channel_out.write(data, data.length);
-        } catch (IOException ex) {
-            System.out.println(title+": "+ex);
-        }
+        sink.push_in(data, size);
     }
     
     public void start() {

@@ -2,7 +2,6 @@ package talkingnet.core.foo.source;
 
 import org.junit.Test;
 import talkingnet.core.foo.sink.FooSink;
-import talkingnet.core.io.channel.PushChannel;
 
 /**
  *
@@ -12,12 +11,10 @@ public class FooSourceTest {
     
     private FooSource source;
     private FooSink sink;
-    private PushChannel channel;
     
     {
         sink = new FooSink("sink");
-        channel = new PushChannel(sink);
-        source = new FooSource(channel, "source");
+        source = new FooSource(sink, "source");
     }
     
     @Test
