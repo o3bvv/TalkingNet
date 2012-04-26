@@ -10,8 +10,8 @@ public class DefaultAudioFormat extends AudioFormat {
 
     public DefaultAudioFormat() {
         super(AudioFormat.Encoding.PCM_SIGNED,
-                11025,
+                16000,
                 16, 1, 2,
-                11025, true);
+                16000, true);
     }    
 }
