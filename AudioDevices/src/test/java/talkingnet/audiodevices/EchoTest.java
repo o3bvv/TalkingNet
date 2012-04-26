@@ -4,6 +4,7 @@ import org.junit.Test;
 import talkingnet.audiodevices.defaults.DefaultAudioSink;
 import talkingnet.audiodevices.defaults.DefaultAudioSource;
 import talkingnet.core.Pool;
+import talkingnet.utils.audio.DefaultAudioFormat;
 
 /**
  *
@@ -11,13 +12,18 @@ import talkingnet.core.Pool;
  */
 public class EchoTest {
     
-    private int bufferLength = (11025*2/5);
+    private int bufferLengthInMillis = 48;
+    private int bufferLength;
     
     private AudioSource source;
     private Pool pool;
     private AudioSink sink;
 
     public EchoTest() {
+        
+        bufferLength = DefaultAudioFormat.SAMPLING_RATE * DefaultAudioFormat.FRAME_SIZE;
+        bufferLength /= (1000/bufferLengthInMillis);
+        
         pool = new Pool("pool");
         source = new DefaultAudioSource(bufferLength, pool, "src");
         sink = new DefaultAudioSink(bufferLength, pool, "sink");
