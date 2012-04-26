@@ -9,6 +9,7 @@ import java.net.SocketAddress;
 import java.util.LinkedList;
 import java.util.List;
 import talkingnet.codecs.g711.G711UlawCompressor;
+import talkingnet.codecs.g711.G711UlawDecompressor;
 import talkingnet.core.Copier;
 import talkingnet.core.Pump;
 import talkingnet.core.PushingMultipool;
@@ -71,18 +72,14 @@ public class Server {
         for (InetSocketAddress address : clientsAddresses) {
             String addressStr = "_"+address.getHostName()+"_"+address.getPort();
             
-            String wrapperName = "wrapper"+addressStr;
             wrapper = new UdpDataWrapper(
-                    address, udpSinkPump, wrapperName);
+                    address, udpSinkPump, "wrapper"+addressStr);
             compressedDataCopier.addDestination(wrapper);
             
-            Pushable sink = multipool.getNewSink();
-            
-            String pumpName = "pump"+addressStr;
-            Pump pump = new Pump(sink, pumpName);
-            
-            String filterName = "filter"+addressStr;
-            filter = new UdpDataFilter(address, pump, filterName);
+            Pushable sink = multipool.getNewSink();            
+            G711UlawDecompressor decompressor = new G711UlawDecompressor(sink, "decompressor"+addressStr);            
+            Pump pump = new Pump(decompressor, "pump"+addressStr);            
+            filter = new UdpDataFilter(address, pump, "filter"+addressStr);
             
             udpPacketsCopier.addDestination(filter);
             
