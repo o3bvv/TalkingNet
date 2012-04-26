@@ -37,11 +37,10 @@ public class UdpBin extends Element implements UdpPushable {
         }
     }
     
-    public UdpBin(SocketAddress address, UdpPushable udpSink, int bufferLength, String title) {
+    public UdpBin(SocketAddress localAddress, UdpPushable udpSink, int bufferLength, String title) {
         super(title);
         try {
-            socket = new DatagramSocket();
-            socket.connect(address);
+            socket = new DatagramSocket(localAddress);
             createElements(udpSink, bufferLength);
         } catch (SocketException ex) {
             System.out.println(title+":"+ex);
