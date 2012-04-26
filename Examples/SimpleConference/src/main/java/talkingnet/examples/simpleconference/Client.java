@@ -11,6 +11,7 @@ import talkingnet.core.Pool;
 import talkingnet.core.Pump;
 import talkingnet.net.udp.UdpBin;
 import talkingnet.net.udp.UdpDataFilter;
+import talkingnet.utils.audio.DefaultAudioFormat;
 
 /**
  *
@@ -18,7 +19,8 @@ import talkingnet.net.udp.UdpDataFilter;
  */
 public class Client {
 
-    private int bufferLength = 1024*16;
+    private int bufferLengthInMillis = 48;
+    private int bufferLength;
     
     private DefaultAudioSource src;
     private Pump pump;
@@ -33,12 +35,14 @@ public class Client {
 
     public Client(SocketAddress localAddress, SocketAddress remoteAddress) {
         
+        bufferLength = DefaultAudioFormat.SAMPLING_RATE * DefaultAudioFormat.FRAME_SIZE;
+        bufferLength /= (1000/bufferLengthInMillis);
         bufferLength -= bufferLength % 2;
         
         pool = new Pool("pool");
         sink = new DefaultAudioSink(bufferLength, pool, "audioSink");
         decompressor = new G711UlawDecompressor(pool, "decompressor");
-        filter = new UdpDataFilter(localAddress, decompressor, "filter");
+        filter = new UdpDataFilter(remoteAddress, decompressor, "filter");
         
         int udpDataLength = bufferLength / G711UlawCompressor.COMPRESSION_RATE;        
         udpBin = new UdpBin(localAddress, remoteAddress, filter, udpDataLength, "udpBin");

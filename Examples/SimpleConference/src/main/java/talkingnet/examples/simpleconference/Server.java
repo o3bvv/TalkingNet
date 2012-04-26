@@ -16,6 +16,7 @@ import talkingnet.core.PushingMultipool;
 import talkingnet.core.adder.SimpleAdder;
 import talkingnet.core.io.Pushable;
 import talkingnet.net.udp.*;
+import talkingnet.utils.audio.DefaultAudioFormat;
 
 /**
  *
@@ -23,7 +24,9 @@ import talkingnet.net.udp.*;
  */
 public class Server {
 
-    private int bufferLength = 1024 * 16;
+    private int bufferLengthInMillis = 48;
+    private int bufferLength;
+    
     private List<InetSocketAddress> clientsAddresses;
     
     private UdpBin udpBin;
@@ -36,6 +39,8 @@ public class Server {
     private Copier compressedDataCopier;
 
     public Server(SocketAddress localAddress) {
+        bufferLength = DefaultAudioFormat.SAMPLING_RATE * DefaultAudioFormat.FRAME_SIZE;
+        bufferLength /= (1000/bufferLengthInMillis);
         bufferLength -= bufferLength % 2;
 
         getClientsAddresses();
