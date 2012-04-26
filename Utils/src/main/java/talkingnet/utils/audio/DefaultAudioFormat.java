@@ -8,10 +8,12 @@ import javax.sound.sampled.AudioFormat;
  */
 public class DefaultAudioFormat extends AudioFormat {
 
+    public final static int SAMPLING_RATE = 16000;
+    
     public DefaultAudioFormat() {
         super(AudioFormat.Encoding.PCM_SIGNED,
-                16000,
+                SAMPLING_RATE,
                 16, 1, 2,
-                16000, true);
+                SAMPLING_RATE, true);
     }    
 }
