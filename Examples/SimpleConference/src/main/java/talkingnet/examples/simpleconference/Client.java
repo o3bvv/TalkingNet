@@ -56,12 +56,13 @@ public class Client {
     private void runPipeLine(){
         try {
             sink.open();
+            src.open();
+            
+            pump.start();
             sink.start();
             
             udpBin.start();
-            pump.start();
             
-            src.open();
             src.start();
         } catch (Exception ex) {
             System.out.println(ex);
