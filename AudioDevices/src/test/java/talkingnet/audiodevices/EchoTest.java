@@ -11,7 +11,7 @@ import talkingnet.core.Pool;
  */
 public class EchoTest {
     
-    private int bufferLength = (11025*2/10);
+    private int bufferLength = (11025*2/5);
     
     private AudioSource source;
     private Pool pool;
