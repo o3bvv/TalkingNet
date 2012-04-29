@@ -34,10 +34,21 @@
             <artifactId>Utils</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.xiph.speex</groupId>
+            <artifactId>jspeex</artifactId>
+            <version>0.9.8</version>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.10</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <id>project-local</id>
+            <url>file://${project.basedir}/lib</url>
+        </repository>
+    </repositories>
 </project>
