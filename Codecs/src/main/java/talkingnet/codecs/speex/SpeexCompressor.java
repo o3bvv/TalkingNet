@@ -4,13 +4,12 @@ import org.xiph.speex.SpeexEncoder;
 import talkingnet.codecs.Compressor;
 import talkingnet.core.Element;
 import talkingnet.core.io.Pushable;
-import talkingnet.core.io.Pushing;
 
 /**
  *
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  */
-public class SpeexCompressor extends Element implements Compressor, Pushable, Pushing {
+public class SpeexCompressor extends Element implements Compressor {
 
     private Pushable sink;
     private SpeexEncoder compressor;
@@ -19,10 +18,8 @@ public class SpeexCompressor extends Element implements Compressor, Pushable, Pu
     private int dataFrameRatio;
     private int resultSize;
 
-    public SpeexCompressor(Pushable sink, String title) {
+    public SpeexCompressor(String title) {
         super(title);
-        this.sink = sink;
-        compressor = new SpeexEncoder();
     }
 
     public boolean init(final int mode,
@@ -30,6 +27,7 @@ public class SpeexCompressor extends Element implements Compressor, Pushable, Pu
             final int sampleRate,
             final int channels) {
 
+        compressor = new SpeexEncoder();
         boolean init = compressor.init(mode, quality, sampleRate, channels);
 
         if (init) {
@@ -95,5 +93,9 @@ public class SpeexCompressor extends Element implements Compressor, Pushable, Pu
 
     public int getResultSize() {
         return resultSize;
+    }
+
+    public void setSink(Pushable sink) {
+        this.sink = sink;
     }
 }

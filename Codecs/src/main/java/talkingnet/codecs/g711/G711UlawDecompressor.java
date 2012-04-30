@@ -9,7 +9,7 @@ import talkingnet.core.io.Pushable;
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  * @see http://code.google.com/p/codecg711/source/browse/trunk/CodecG711/src/org/mobicents/media/server/impl/dsp/audio/g711/ulaw/Decoder.java
  */
-public class G711UlawDecompressor extends Element implements Decompressor, Pushable {
+public class G711UlawDecompressor extends Element implements Decompressor {
 
     private Pushable sink;
     
@@ -54,6 +54,10 @@ public class G711UlawDecompressor extends Element implements Decompressor, Pusha
 
     public void push_in(byte[] data, int size) {
         byte[] decompressed = decompress(data);
-        sink.push_in(decompressed, decompressed.length);
+        push_out(decompressed, decompressed.length);
+    }
+
+    public void push_out(byte[] data, int size) {
+        sink.push_in(data, data.length);
     }
 }

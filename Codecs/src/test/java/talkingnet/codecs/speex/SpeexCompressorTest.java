@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package talkingnet.codecs.speex;
 
 import org.junit.Test;
@@ -23,7 +19,8 @@ public class SpeexCompressorTest {
     
     {
         sink = new FooSink("sink");
-        compressor = new SpeexCompressor(sink, "compressor");
+        compressor = new SpeexCompressor("compressor");
+        compressor.setSink(sink);
         compressor.init(0, 3, 16000, channels);
     }
     
