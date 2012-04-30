@@ -8,8 +8,9 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.LinkedList;
 import java.util.List;
-import talkingnet.codecs.g711.G711UlawCompressor;
-import talkingnet.codecs.g711.G711UlawDecompressor;
+import talkingnet.codecs.Compressor;
+import talkingnet.codecs.speex.SpeexCompressor;
+import talkingnet.codecs.speex.SpeexDecompressor;
 import talkingnet.core.Copier;
 import talkingnet.core.Pump;
 import talkingnet.core.PushingMultipool;
@@ -35,14 +36,17 @@ public class Server {
     private PushingMultipool multipool;
     private SimpleAdder adder;
     private Pump adderPump;
-    private G711UlawCompressor compressor;
+    private Compressor compressor;
     private Copier compressedDataCopier;
+    
+    private int mode = 0;
+    private int quality = 3;
+    private int channels = 1;
+    private int sampleRate = 16000;    
+    private boolean enhance = false;
 
     public Server(SocketAddress localAddress) {
-        bufferLength = DefaultAudioFormat.SAMPLING_RATE * DefaultAudioFormat.FRAME_SIZE;
-        bufferLength /= (1000/bufferLengthInMillis);
-        bufferLength -= bufferLength % 2;
-
+        
         getClientsAddresses();
 
         if (clientsAddresses.isEmpty()) {
@@ -56,12 +60,21 @@ public class Server {
 
         udpPacketsCopier = new UdpCopier("udp_packets_copier");
         
-        int udpDataLength = bufferLength / G711UlawCompressor.COMPRESSION_RATE;
+        compressedDataCopier = new Copier("compressed_data_copier");
+        
+        compressor = new SpeexCompressor("compressor");
+        ((SpeexCompressor)compressor).init(mode, quality, sampleRate, channels);
+        ((SpeexCompressor)compressor).setSink(compressedDataCopier);
+        
+        bufferLength = DefaultAudioFormat.SAMPLING_RATE * DefaultAudioFormat.FRAME_SIZE;
+        bufferLength /= (1000/bufferLengthInMillis);
+        bufferLength -= bufferLength % ((SpeexCompressor)compressor).getRawFrameSize();
+        ((SpeexCompressor)compressor).setBufferSize(bufferLength);
+        
+        int udpDataLength = ((SpeexCompressor)compressor).getResultSize();
         udpBin = new UdpBin(localAddress, udpPacketsCopier, udpDataLength, "udpBin");
         udpSinkPump = new UdpPump(udpBin, "udpSinkPump");
         
-        compressedDataCopier = new Copier("compressed_data_copier");
-        compressor = new G711UlawCompressor(compressedDataCopier, "compressor");
         adderPump = new Pump(compressor, "adderPump");
         adder = new SimpleAdder(bufferLength, adderPump, "adder");
         multipool = new PushingMultipool(bufferLength, adder, "multipool");
@@ -82,7 +95,14 @@ public class Server {
             compressedDataCopier.addDestination(wrapper);
             
             Pushable sink = multipool.getNewSink();            
-            G711UlawDecompressor decompressor = new G711UlawDecompressor(sink, "decompressor"+addressStr);            
+
+            SpeexDecompressor decompressor = new SpeexDecompressor(
+                    ((SpeexCompressor)compressor).getEncodedFrameSize(),
+                    bufferLength,
+                    "decompressor"+addressStr);            
+            ((SpeexDecompressor)decompressor).init(mode, sampleRate, channels, enhance);
+            ((SpeexDecompressor)decompressor).setSink(sink);
+            
             Pump pump = new Pump(decompressor, "pump"+addressStr);            
             filter = new UdpDataFilter(address, pump, "filter"+addressStr);
             
