@@ -24,4 +24,15 @@ public class RandomData {
         }
         return data;
     }
+    
+    public static byte[] getRandomShortDataFixedLength(int shortCount) {
+        byte[] result = new byte[shortCount << 1];
+        int resPos = 0;
+        for (int i = 0; i < shortCount; i++) {
+            short sample = RandomNumbers.getRandomPositiveShort();
+            result[resPos++] = (byte) (sample >> Byte.SIZE);
+            result[resPos++] = (byte) (sample & 0xFF);
+        }
+        return result;
+    }
 }

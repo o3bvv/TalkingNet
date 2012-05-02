@@ -13,4 +13,8 @@ public class RandomNumbers {
     public static byte getRandomPositiveByte() {
         return (byte) Math.floor(Math.random() * Byte.MAX_VALUE);
     }
+    
+    public static short getRandomPositiveShort() {
+        return (short) Math.floor(Math.random() * Short.MAX_VALUE);
+    }
 }
