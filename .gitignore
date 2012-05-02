@@ -5,3 +5,10 @@
 /Codec/target/
 /Codecs/target/
 /Examples/SimpleConference/target/
+/Utils/nb-configuration.xml
+/nb-configuration.xml
+/Examples/SimpleConference/nb-configuration.xml
+/Net/nb-configuration.xml
+/Core/nb-configuration.xml
+/Codecs/nb-configuration.xml
+/AudioDevices/nb-configuration.xml
