@@ -8,13 +8,18 @@ import javax.sound.sampled.AudioFormat;
  */
 public class DefaultAudioFormat extends AudioFormat {
 
-    public final static int SAMPLING_RATE = 16000;
-    public final static int FRAME_SIZE    = 2;
+    public final static int SAMPLING_RATE  = 22050;
+    public final static int SAMPLE_SIZE    = Byte.SIZE*2;
+    public final static int CHANNELS       = 1;
+    public final static int FRAME_SIZE     = (SAMPLE_SIZE*CHANNELS)/Byte.SIZE;
+    public final static boolean BIG_ENDIAN = true;
     
     public DefaultAudioFormat() {
         super(AudioFormat.Encoding.PCM_SIGNED,
                 SAMPLING_RATE,
-                Byte.SIZE*FRAME_SIZE, 1, FRAME_SIZE,
-                SAMPLING_RATE, true);
+                SAMPLE_SIZE,
+                CHANNELS,
+                FRAME_SIZE,
+                SAMPLING_RATE, BIG_ENDIAN);
     }    
 }
