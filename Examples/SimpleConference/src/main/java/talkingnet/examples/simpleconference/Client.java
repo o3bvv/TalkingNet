@@ -19,7 +19,7 @@ import talkingnet.utils.audio.DefaultAudioFormat;
  */
 public class Client {
 
-    private int bufferLengthInMillis = 64;
+    private int bufferLengthInMillis = 20;
     private int bufferLength;
     private DefaultAudioSource src;
     private Pump pump;

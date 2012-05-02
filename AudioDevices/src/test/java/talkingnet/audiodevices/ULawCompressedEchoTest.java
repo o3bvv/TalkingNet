@@ -14,7 +14,7 @@ import talkingnet.utils.audio.DefaultAudioFormat;
  */
 public class ULawCompressedEchoTest {
     
-    private int bufferLengthInMillis = 64;
+    private int bufferLengthInMillis = 20;
     private int bufferLength;
     
     private AudioSource source;

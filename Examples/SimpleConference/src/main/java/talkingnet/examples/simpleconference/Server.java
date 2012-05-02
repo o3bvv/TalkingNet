@@ -24,7 +24,7 @@ import talkingnet.utils.audio.DefaultAudioFormat;
  */
 public class Server {
 
-    private int bufferLengthInMillis = 64;
+    private int bufferLengthInMillis = 20;
     private int bufferLength;
     
     private List<InetSocketAddress> clientsAddresses;
