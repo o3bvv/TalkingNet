@@ -18,7 +18,7 @@ public abstract class AudioDevice extends Element implements LineListener {
     protected Mixer mixer;
     protected boolean muted = false;
     protected boolean running = false;
-    protected int internalBufferScale = 32;
+    protected int internalBufferScale = 5;
 
     public AudioDevice(
             Mixer mixer, AudioFormat format, int bufferLength, String title) {
