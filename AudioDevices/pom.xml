@@ -27,6 +27,12 @@
             <artifactId>Utils</artifactId>
         </dependency>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <version>${project.version}</version>
+            <artifactId>Codecs</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.10</version>
