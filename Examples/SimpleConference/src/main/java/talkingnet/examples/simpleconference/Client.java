@@ -5,10 +5,8 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import talkingnet.audiodevices.defaults.DefaultAudioSink;
 import talkingnet.audiodevices.defaults.DefaultAudioSource;
-import talkingnet.codecs.Compressor;
-import talkingnet.codecs.Decompressor;
-import talkingnet.codecs.speex.SpeexCompressor;
-import talkingnet.codecs.speex.SpeexDecompressor;
+import talkingnet.codecs.ulaw.ULawCompresssor;
+import talkingnet.codecs.ulaw.ULawDecompresssor;
 import talkingnet.core.Pool;
 import talkingnet.core.Pump;
 import talkingnet.net.udp.UdpBin;
@@ -21,50 +19,32 @@ import talkingnet.utils.audio.DefaultAudioFormat;
  */
 public class Client {
 
-    private int bufferLengthInMillis = 48;
+    private int bufferLengthInMillis = 64;
     private int bufferLength;
     private DefaultAudioSource src;
     private Pump pump;
-    private Compressor compressor;
+    private ULawCompresssor compressor;
     private UdpBin udpBin;
     private UdpDataFilter filter;
-    private Decompressor decompressor;
+    private ULawDecompresssor decompressor;
     private Pool pool;
     private DefaultAudioSink sink;
     
-    private int mode = 0;
-    private int quality = 3;
-    private int channels = 1;
-    private int sampleRate = 16000;
-    private boolean enhance = false;
-
     public Client(SocketAddress localAddress, SocketAddress remoteAddress) {
-
-        compressor = new SpeexCompressor("compressor");
-        ((SpeexCompressor) compressor).init(mode, quality, sampleRate, channels);
-
+        
         bufferLength = DefaultAudioFormat.SAMPLING_RATE * DefaultAudioFormat.FRAME_SIZE;
         bufferLength /= (1000 / bufferLengthInMillis);
-        bufferLength -= bufferLength % ((SpeexCompressor) compressor).getRawFrameSize();
-        ((SpeexCompressor) compressor).setBufferSize(bufferLength);
-
+        bufferLength -= bufferLength % 2;
+        
         pool = new Pool("pool");
         sink = new DefaultAudioSink(bufferLength, pool, "audioSink");
-
-        decompressor = new SpeexDecompressor(
-                ((SpeexCompressor) compressor).getEncodedFrameSize(),
-                bufferLength,
-                "decompressor");
-        ((SpeexDecompressor) decompressor).init(mode, sampleRate, channels, enhance);
-        ((SpeexDecompressor) decompressor).setSink(pool);
-
+        decompressor = new ULawDecompresssor(pool, "decompressor");
         filter = new UdpDataFilter(remoteAddress, decompressor, "filter");
 
-        int udpDataLength = ((SpeexCompressor) compressor).getResultSize();
+        int udpDataLength = bufferLength >> 1;
         udpBin = new UdpBin(localAddress, remoteAddress, filter, udpDataLength, "udpBin");
 
-        ((SpeexCompressor) compressor).setSink(udpBin);
-
+        compressor = new ULawCompresssor(udpBin, "compressor");
         pump = new Pump(compressor, "pump");
         src = new DefaultAudioSource(bufferLength, pump, "audioSrc");
 
