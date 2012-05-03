@@ -10,13 +10,13 @@ import talkingnet.core.io.Pushing;
  *
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  */
-public class SimpleAdder extends Element implements Multipushable, Pushing {
+public class SimpleAdder8bit extends Element implements Multipushable, Pushing {
 
     private Pushable sink;
     byte[] buffer;
     private int bufferSize;
 
-    public SimpleAdder(int bufferSize, Pushable sink, String title) {
+    public SimpleAdder8bit(int bufferSize, Pushable sink, String title) {
         super(title);
         this.bufferSize = bufferSize;
         this.sink = sink;

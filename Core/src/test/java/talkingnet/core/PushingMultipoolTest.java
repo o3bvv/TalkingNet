@@ -3,7 +3,7 @@ package talkingnet.core;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.Test;
-import talkingnet.core.adder.SimpleAdder;
+import talkingnet.core.adder.SimpleAdder8bit;
 import talkingnet.core.foo.sink.FooSink;
 import talkingnet.core.foo.source.FooSource;
 import talkingnet.core.io.Pushable;
@@ -19,14 +19,14 @@ public class PushingMultipoolTest {
     private int bufferSize = 30;
     
     private PushingMultipool multipool;
-    private SimpleAdder adder;
+    private SimpleAdder8bit adder;
     private FooSink sink;
     
     private List<RandomTimeFixedSizeOnesGenerator> sources;
 
     {
         sink = new FooSink("sink");
-        adder = new SimpleAdder(bufferSize, sink, "adder");
+        adder = new SimpleAdder8bit(bufferSize, sink, "adder");
         multipool = new PushingMultipool(bufferSize, adder, "multipool");
         
         sources = new LinkedList<RandomTimeFixedSizeOnesGenerator>();

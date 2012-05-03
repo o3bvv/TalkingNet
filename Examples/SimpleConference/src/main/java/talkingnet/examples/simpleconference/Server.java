@@ -13,7 +13,7 @@ import talkingnet.codecs.ulaw.ULawDecompresssor;
 import talkingnet.core.Copier;
 import talkingnet.core.Pump;
 import talkingnet.core.PushingMultipool;
-import talkingnet.core.adder.SimpleAdder;
+import talkingnet.core.adder.SimpleAdder8bit;
 import talkingnet.core.io.Pushable;
 import talkingnet.net.udp.*;
 import talkingnet.utils.audio.DefaultAudioFormat;
@@ -33,7 +33,7 @@ public class Server {
     private UdpPump udpSinkPump;
     private UdpCopier udpPacketsCopier;
     private PushingMultipool multipool;
-    private SimpleAdder adder;
+    private SimpleAdder8bit adder;
     private Pump adderPump;
     private ULawCompresssor compressor;
     private Copier compressedDataCopier;
@@ -67,7 +67,7 @@ public class Server {
         udpSinkPump = new UdpPump(udpBin, "udpSinkPump");
         
         adderPump = new Pump(compressor, "adderPump");
-        adder = new SimpleAdder(bufferLength, adderPump, "adder");
+        adder = new SimpleAdder8bit(bufferLength, adderPump, "adder");
         multipool = new PushingMultipool(bufferLength, adder, "multipool");
         
         createClientDependentElements();

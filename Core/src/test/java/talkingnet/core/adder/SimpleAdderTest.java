@@ -19,12 +19,12 @@ public class SimpleAdderTest {
     private int sourcesCount = 5;
     
     private FooSink sink;
-    private SimpleAdder adder;
+    private SimpleAdder8bit adder;
     private MultiOnesSource source;
     
     {
         sink = new FooSink("sink");
-        adder = new SimpleAdder(dataLength, sink, "adder");
+        adder = new SimpleAdder8bit(dataLength, sink, "adder");
         source = new MultiOnesSource(dataLength, adder, "multisource");
     }
     
