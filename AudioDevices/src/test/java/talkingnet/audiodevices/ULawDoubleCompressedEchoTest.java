@@ -3,8 +3,8 @@ package talkingnet.audiodevices;
 import org.junit.Test;
 import talkingnet.audiodevices.defaults.DefaultAudioSink;
 import talkingnet.audiodevices.defaults.DefaultAudioSource;
-import talkingnet.codecs.ulaw.ULawCompresssor;
-import talkingnet.codecs.ulaw.ULawDecompresssor;
+import talkingnet.codecs.ulaw.ULawCompressor;
+import talkingnet.codecs.ulaw.ULawDecompressor;
 import talkingnet.core.Pool;
 import talkingnet.utils.audio.DefaultAudioFormat;
 
@@ -18,10 +18,10 @@ public class ULawDoubleCompressedEchoTest {
     private int bufferLength;
     
     private AudioSource source;
-    private ULawCompresssor compresssor1;
-    private ULawDecompresssor decompresssor1;
-    private ULawCompresssor compresssor2;
-    private ULawDecompresssor decompresssor2;
+    private ULawCompressor compresssor1;
+    private ULawDecompressor decompresssor1;
+    private ULawCompressor compresssor2;
+    private ULawDecompressor decompresssor2;
     private Pool pool;    
     private AudioSink sink;
 
@@ -32,11 +32,11 @@ public class ULawDoubleCompressedEchoTest {
 
         pool = new Pool(5, "pool");
 
-        decompresssor2 = new ULawDecompresssor(pool, "decompressor2");
-        compresssor2 = new ULawCompresssor(decompresssor2, "compressor2");
+        decompresssor2 = new ULawDecompressor(pool, "decompressor2");
+        compresssor2 = new ULawCompressor(decompresssor2, "compressor2");
         
-        decompresssor1 = new ULawDecompresssor(compresssor2, "decompressor1");
-        compresssor1 = new ULawCompresssor(decompresssor1, "compressor1");
+        decompresssor1 = new ULawDecompressor(compresssor2, "decompressor1");
+        compresssor1 = new ULawCompressor(decompresssor1, "compressor1");
 
         source = new DefaultAudioSource(bufferLength, compresssor1, "src");
         sink = new DefaultAudioSink(bufferLength, pool, "sink");

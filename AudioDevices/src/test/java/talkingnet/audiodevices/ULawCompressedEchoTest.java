@@ -3,8 +3,8 @@ package talkingnet.audiodevices;
 import org.junit.Test;
 import talkingnet.audiodevices.defaults.DefaultAudioSink;
 import talkingnet.audiodevices.defaults.DefaultAudioSource;
-import talkingnet.codecs.ulaw.ULawCompresssor;
-import talkingnet.codecs.ulaw.ULawDecompresssor;
+import talkingnet.codecs.ulaw.ULawCompressor;
+import talkingnet.codecs.ulaw.ULawDecompressor;
 import talkingnet.core.Pool;
 import talkingnet.utils.audio.DefaultAudioFormat;
 
@@ -18,9 +18,9 @@ public class ULawCompressedEchoTest {
     private int bufferLength;
     
     private AudioSource source;
-    private ULawCompresssor compresssor;
+    private ULawCompressor compresssor;
     private Pool pool;
-    private ULawDecompresssor decompresssor;
+    private ULawDecompressor decompresssor;
     private AudioSink sink;
 
     public ULawCompressedEchoTest() {
@@ -30,8 +30,8 @@ public class ULawCompressedEchoTest {
         
         pool = new Pool(5, "pool");
         
-        decompresssor = new ULawDecompresssor(pool, "decompressor");
-        compresssor = new ULawCompresssor(decompresssor, "compressor");
+        decompresssor = new ULawDecompressor(pool, "decompressor");
+        compresssor = new ULawCompressor(decompresssor, "compressor");
         
         source = new DefaultAudioSource(bufferLength, compresssor, "src");        
         sink = new DefaultAudioSink(bufferLength, pool, "sink");

@@ -8,14 +8,14 @@ import talkingnet.utils.random.RandomData;
  *
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  */
-public class ULawCompresssorTest {
+public class ULawCompressorTest {
         
-    private ULawCompresssor compresssor;
+    private ULawCompressor compresssor;
     private FooSink sink;
     
     {
         sink = new FooSink("sink");
-        compresssor = new ULawCompresssor(sink, "compressor");
+        compresssor = new ULawCompressor(sink, "compressor");
     }
     
     @Test

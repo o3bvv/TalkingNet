@@ -10,14 +10,14 @@ import talkingnet.utils.random.RandomData;
  */
 public class ULawCodecTest {
 
-    private ULawCompresssor compresssor;
-    private ULawDecompresssor decompresssor;
+    private ULawCompressor compresssor;
+    private ULawDecompressor decompresssor;
     private FooSink sink;
     
     {
         sink = new FooSink("sink");
-        decompresssor = new ULawDecompresssor(sink, "decompressor");
-        compresssor = new ULawCompresssor(decompresssor, "compressor");
+        decompresssor = new ULawDecompressor(sink, "decompressor");
+        compresssor = new ULawCompressor(decompresssor, "compressor");
     }
 
     @Test

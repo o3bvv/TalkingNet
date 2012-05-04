@@ -9,10 +9,10 @@ import talkingnet.core.io.Pushable;
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  * @see http://read.pudn.com/downloads112/sourcecode/p2p/468700/peers-0.2/src/net/sourceforge/peers/media/AudioUlawEncodeDecode02.java__.htm
  */
-public class ULawDecompresssor extends Element implements Decompressor {
+public class ULawDecompressor extends Element implements Decompressor {
     private Pushable sink;
 
-    public ULawDecompresssor(Pushable sink, String title) {
+    public ULawDecompressor(Pushable sink, String title) {
         super(title);
         this.sink = sink;
     }

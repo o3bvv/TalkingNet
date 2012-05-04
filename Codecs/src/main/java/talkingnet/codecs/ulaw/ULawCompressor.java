@@ -9,14 +9,14 @@ import talkingnet.core.io.Pushable;
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  * @see http://read.pudn.com/downloads112/sourcecode/p2p/468700/peers-0.2/src/net/sourceforge/peers/media/AudioUlawEncodeDecode02.java__.htm
  */
-public class ULawCompresssor extends Element implements Compressor {
+public class ULawCompressor extends Element implements Compressor {
 
     private Pushable sink;
     
     private final short BIAS = 132;
     private final short CLIP = 32635;
 
-    public ULawCompresssor(Pushable sink, String title) {
+    public ULawCompressor(Pushable sink, String title) {
         super(title);
         this.sink = sink;
     }

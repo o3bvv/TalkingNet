@@ -8,8 +8,8 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.LinkedList;
 import java.util.List;
-import talkingnet.codecs.ulaw.ULawCompresssor;
-import talkingnet.codecs.ulaw.ULawDecompresssor;
+import talkingnet.codecs.ulaw.ULawCompressor;
+import talkingnet.codecs.ulaw.ULawDecompressor;
 import talkingnet.core.Copier;
 import talkingnet.core.Pump;
 import talkingnet.core.PushingMultipool;
@@ -35,7 +35,7 @@ public class Server {
     private PushingMultipool multipool;
     private SimpleAdder16bit adder;
     private Pump adderPump;
-    private ULawCompresssor compressor;
+    private ULawCompressor compressor;
     private Copier compressedDataCopier;
     
 
@@ -59,7 +59,7 @@ public class Server {
         udpPacketsCopier = new UdpCopier("udp_packets_copier");
         
         compressedDataCopier = new Copier("compressed_data_copier");       
-        compressor = new ULawCompresssor(compressedDataCopier, "compressor");
+        compressor = new ULawCompressor(compressedDataCopier, "compressor");
         
         
         int udpDataLength = bufferLength >> 1;
@@ -87,8 +87,8 @@ public class Server {
             
             Pushable sink = multipool.getNewSink();            
 
-            ULawDecompresssor decompressor =
-                    new ULawDecompresssor(sink, "decompressor"+addressStr);
+            ULawDecompressor decompressor =
+                    new ULawDecompressor(sink, "decompressor"+addressStr);
             
             Pump pump = new Pump(5, decompressor, "pump"+addressStr);            
             filter = new UdpDataFilter(address, pump, "filter"+addressStr);

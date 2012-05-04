@@ -5,8 +5,8 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import talkingnet.audiodevices.defaults.DefaultAudioSink;
 import talkingnet.audiodevices.defaults.DefaultAudioSource;
-import talkingnet.codecs.ulaw.ULawCompresssor;
-import talkingnet.codecs.ulaw.ULawDecompresssor;
+import talkingnet.codecs.ulaw.ULawCompressor;
+import talkingnet.codecs.ulaw.ULawDecompressor;
 import talkingnet.core.Pool;
 import talkingnet.core.Pump;
 import talkingnet.net.udp.UdpBin;
@@ -23,10 +23,10 @@ public class Client {
     private int bufferLength;
     private DefaultAudioSource src;
     private Pump pump;
-    private ULawCompresssor compressor;
+    private ULawCompressor compressor;
     private UdpBin udpBin;
     private UdpDataFilter filter;
-    private ULawDecompresssor decompressor;
+    private ULawDecompressor decompressor;
     private Pool pool;
     private DefaultAudioSink sink;
     
@@ -38,13 +38,13 @@ public class Client {
         
         pool = new Pool(5, "pool");
         sink = new DefaultAudioSink(bufferLength, pool, "audioSink");
-        decompressor = new ULawDecompresssor(pool, "decompressor");
+        decompressor = new ULawDecompressor(pool, "decompressor");
         filter = new UdpDataFilter(remoteAddress, decompressor, "filter");
 
         int udpDataLength = bufferLength >> 1;
         udpBin = new UdpBin(localAddress, remoteAddress, filter, udpDataLength, "udpBin");
 
-        compressor = new ULawCompresssor(udpBin, "compressor");
+        compressor = new ULawCompressor(udpBin, "compressor");
         pump = new Pump(5, compressor, "pump");
         src = new DefaultAudioSource(bufferLength, pump, "audioSrc");
 
