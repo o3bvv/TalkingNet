@@ -16,7 +16,7 @@ import talkingnet.core.io.Pushable;
  */
 public class PushingMultipool extends Element implements Multipushing {
 
-    private long fillingWaitTime = 3l;
+    private long fillingWaitTime = 20l;
     private Multipushable sink;
     private final List<InternalPool> pools = new LinkedList<InternalPool>();
     private PullingThread thread;
@@ -75,29 +75,28 @@ public class PushingMultipool extends Element implements Multipushing {
         public void run() {
 
             List<byte[]> allData = new ArrayList<byte[]>();
-            byte[] singleData = new byte[bufferSize];
+            byte[] singleData;
 
             doProcessing = true;
 
-            while (doProcessing) {                
+            while (doProcessing) {
                 synchronized (pools) {
+                    try {
+                        pools.wait(fillingWaitTime);
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+                    
                     for (InternalPool pool : pools) {
+                        singleData = new byte[bufferSize];
                         int pulled = pool.pull_out(singleData, bufferSize);
                         if (pulled > 0) {
                             allData.add(singleData);
                         }
                     }
-
-                    try {
-                        if (allData.isEmpty() && doProcessing) {
-                            pools.wait(fillingWaitTime);
-                        }
-                    } catch (InterruptedException e) {
-                        return;
-                    }
                 }
-                
-                if (allData.isEmpty()==false){
+
+                if (allData.isEmpty() == false) {                    
                     multipush_out(allData);
                     allData.clear();
                 }
