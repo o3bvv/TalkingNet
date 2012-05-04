@@ -10,7 +10,7 @@ import talkingnet.core.io.Pushing;
  */
 public class VAD16bit extends Element implements Pushable, Pushing {
 
-    private float threshold = 1;
+    private float threshold = 0;
     private int maxLevel = Short.MAX_VALUE;
     private int sum;
     private short sample;
