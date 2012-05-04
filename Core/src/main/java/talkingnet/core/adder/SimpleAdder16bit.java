@@ -29,12 +29,13 @@ public class SimpleAdder16bit extends Element implements Multipushable, Pushing 
     }
 
     private void multiadd(Collection<byte[]> dataList) {
+        short x1, x2, y;
         for (byte[] data : dataList) {
             for (int i = 0; i < buffer.length; i+=2) {
-                short x1 = (short) ((data[i]   << Byte.SIZE) + data[i+1]);
-                short x2 = (short) ((buffer[i] << Byte.SIZE) + buffer[i+1]);
+                x1 = (short) ((data[i]   << Byte.SIZE) + data[i+1]);
+                x2 = (short) ((buffer[i] << Byte.SIZE) + buffer[i+1]);
                 
-                short y = (short) (x1 + x2);
+                y  = (short) (x1 + x2);
                 
                 buffer[i]   = (byte) (y >> Byte.SIZE);
                 buffer[i+1] = (byte) (y & 0xFF);
