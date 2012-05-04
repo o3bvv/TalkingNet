@@ -30,7 +30,7 @@ public class ULawDoubleCompressedEchoTest {
         bufferLength = DefaultAudioFormat.SAMPLING_RATE * DefaultAudioFormat.FRAME_SIZE;
         bufferLength /= (1000 / bufferLengthInMillis);
 
-        pool = new Pool("pool");
+        pool = new Pool(5, "pool");
 
         decompresssor2 = new ULawDecompresssor(pool, "decompressor2");
         compresssor2 = new ULawCompresssor(decompresssor2, "compressor2");

@@ -36,7 +36,7 @@ public class Client {
         bufferLength /= (1000 / bufferLengthInMillis);
         bufferLength -= bufferLength % 2;
         
-        pool = new Pool("pool");
+        pool = new Pool(5, "pool");
         sink = new DefaultAudioSink(bufferLength, pool, "audioSink");
         decompressor = new ULawDecompresssor(pool, "decompressor");
         filter = new UdpDataFilter(remoteAddress, decompressor, "filter");

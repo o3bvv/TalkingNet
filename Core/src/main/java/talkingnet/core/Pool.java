@@ -1,8 +1,8 @@
 package talkingnet.core;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
 import talkingnet.core.io.Pullable;
 import talkingnet.core.io.Pushable;
+import talkingnet.utils.io.ConcurrentCircularBuffer;
 
 /**
  *
@@ -10,29 +10,25 @@ import talkingnet.core.io.Pushable;
  */
 public class Pool extends Element implements Pushable, Pullable {
 
-    private final ConcurrentLinkedQueue<byte[]> queue =
-                        new ConcurrentLinkedQueue<byte[]>();
-
-    public Pool(String title) {
+    private final ConcurrentCircularBuffer<byte[]> buffer;
+    
+    public Pool(int capacity, String title) {
         super(title);
+        buffer = new ConcurrentCircularBuffer<byte[]>(byte[].class, capacity);
     }
 
     public void push_in(byte[] data, int size) {
-        queue.add(data);
+        buffer.add(data);
     }
 
     public int pull_out(byte[] data, int size) {
-        byte[] result;
-        if (queue.isEmpty()) {
+        byte[] result = buffer.removeAndGetOrGetNull();
+        
+        if (result==null) {
             result = new byte[size];
-        } else {
-            result = queue.poll();
         }
+        
         System.arraycopy(result, 0, data, 0, size);
         return size;
-    }
-    
-    public void flush(){
-        queue.clear();
     }
 }

@@ -21,7 +21,6 @@
             <groupId>${project.groupId}</groupId>
             <version>${project.version}</version>
             <artifactId>Utils</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

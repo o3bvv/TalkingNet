@@ -24,7 +24,7 @@ public class EchoTest {
         bufferLength = DefaultAudioFormat.SAMPLING_RATE * DefaultAudioFormat.FRAME_SIZE;
         bufferLength /= (1000/bufferLengthInMillis);
         
-        pool = new Pool("pool");
+        pool = new Pool(5, "pool");
         source = new DefaultAudioSource(bufferLength, pool, "src");
         sink = new DefaultAudioSink(bufferLength, pool, "sink");
     }
