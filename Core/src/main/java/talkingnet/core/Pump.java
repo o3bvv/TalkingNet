@@ -1,8 +1,8 @@
 package talkingnet.core;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
 import talkingnet.core.io.Pushable;
 import talkingnet.core.io.Pushing;
+import talkingnet.utils.io.ConcurrentCircularBuffer;
 
 /**
  *
@@ -11,23 +11,25 @@ import talkingnet.core.io.Pushing;
 public class Pump extends Element implements Pushable, Pushing {
 
     private Pushable sink;
-    private final ConcurrentLinkedQueue<byte[]> queue =
-            new ConcurrentLinkedQueue<byte[]>();
+    
+    private final ConcurrentCircularBuffer<byte[]> buffer;
+    
     private PumpingThread thread;
     private boolean doProcessing = false;
     private boolean stopForced = false;
     private boolean stopped = false;
 
-    public Pump(Pushable sink, String title) {
+    public Pump(int capacity, Pushable sink, String title) {
         super(title);
         this.sink = sink;
+        buffer = new ConcurrentCircularBuffer<byte[]>(byte[].class, capacity);
     }
 
     @Override
-    public void push_in(byte[] data, int size) {        
-        queue.add(data);
-        synchronized (queue){
-            queue.notifyAll();
+    public void push_in(byte[] data, int size) {
+        synchronized (buffer){
+            buffer.add(data);
+            buffer.notifyAll();
         }        
     }
 
@@ -43,8 +45,8 @@ public class Pump extends Element implements Pushable, Pushing {
 
         thread = new PumpingThread();
         thread.start();
-        synchronized (queue){
-            queue.notifyAll();
+        synchronized (buffer){
+            buffer.notifyAll();
         }
     }
 
@@ -56,8 +58,8 @@ public class Pump extends Element implements Pushable, Pushing {
     public void stop() {
         doProcessing = false;
         thread = null;
-        synchronized (queue){
-            queue.notifyAll();
+        synchronized (buffer){
+            buffer.notifyAll();
         }
     }
 
@@ -69,10 +71,10 @@ public class Pump extends Element implements Pushable, Pushing {
             doProcessing = true;
             stopForced = false;
             while (true) {
-                synchronized (queue) {
+                synchronized (buffer) {
                     try {
-                        while (queue.isEmpty() && doProcessing) {
-                            queue.wait();
+                        while (buffer.isEmpty() && doProcessing) {
+                            buffer.wait();
                         }
                     } catch (InterruptedException e) {
                         return;
@@ -80,14 +82,16 @@ public class Pump extends Element implements Pushable, Pushing {
                 }                                
 
                 if (stopForced==true) {
-                    queue.clear();
+                    buffer.clear();
                     break;
-                } else if(doProcessing==false && queue.isEmpty()) {
+                } else if(doProcessing==false && buffer.isEmpty()) {
                     break;
                 }
                 
-                byte[] data = queue.poll();
-                push_out(data, data.length);
+                byte[] data = buffer.removeAndGetOrGetNull();
+                if (data!=null){
+                    push_out(data, data.length);
+                }
             }
             stopped = true;
         }

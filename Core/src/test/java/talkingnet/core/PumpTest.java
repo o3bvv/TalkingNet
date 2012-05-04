@@ -17,7 +17,7 @@ public class PumpTest {
 
     {
         sink = new RandomProcessingTimeSink("sink");
-        pump = new Pump(sink, "pump");
+        pump = new Pump(100, sink, "pump");
         source = new FooSource(pump, "src");
     }
     

@@ -66,7 +66,7 @@ public class Server {
         udpBin = new UdpBin(localAddress, udpPacketsCopier, udpDataLength, "udpBin");
         udpSinkPump = new UdpPump(udpBin, "udpSinkPump");
         
-        adderPump = new Pump(compressor, "adderPump");
+        adderPump = new Pump(5, compressor, "adderPump");
         adder = new SimpleAdder16bit(bufferLength, adderPump, "adder");
         multipool = new PushingMultipool(bufferLength, adder, "multipool");
         
@@ -90,7 +90,7 @@ public class Server {
             ULawDecompresssor decompressor =
                     new ULawDecompresssor(sink, "decompressor"+addressStr);
             
-            Pump pump = new Pump(decompressor, "pump"+addressStr);            
+            Pump pump = new Pump(5, decompressor, "pump"+addressStr);            
             filter = new UdpDataFilter(address, pump, "filter"+addressStr);
             
             udpPacketsCopier.addDestination(filter);

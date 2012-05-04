@@ -45,7 +45,7 @@ public class Client {
         udpBin = new UdpBin(localAddress, remoteAddress, filter, udpDataLength, "udpBin");
 
         compressor = new ULawCompresssor(udpBin, "compressor");
-        pump = new Pump(compressor, "pump");
+        pump = new Pump(5, compressor, "pump");
         src = new DefaultAudioSource(bufferLength, pump, "audioSrc");
 
         runPipeLine();
