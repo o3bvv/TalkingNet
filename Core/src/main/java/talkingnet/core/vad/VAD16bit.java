@@ -12,7 +12,7 @@ public class VAD16bit extends Element implements Pushable, Pushing {
 
     private float threshold = 0;
     private int maxLevel = Short.MAX_VALUE;
-    private int sum;
+    private float sum;
     private short sample;
     private float currentLevel;
     
@@ -34,10 +34,10 @@ public class VAD16bit extends Element implements Pushable, Pushing {
         
         for (int i = 0; i < data.length; i+=2) {
             sample = (short) ((data[i+1] << Byte.SIZE) + data[i]);
-            sum += sample;
+            sum += sample / maxLevel;
         }
         
-        currentLevel = (float) (sum / maxLevel);
+        currentLevel = (float) (sum / data.length);
         
         return currentLevel >= threshold;
     }
