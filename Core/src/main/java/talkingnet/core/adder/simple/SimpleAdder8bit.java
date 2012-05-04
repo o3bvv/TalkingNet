@@ -1,4 +1,4 @@
-package talkingnet.core.adder;
+package talkingnet.core.adder.simple;
 
 import java.util.Collection;
 import talkingnet.core.Element;

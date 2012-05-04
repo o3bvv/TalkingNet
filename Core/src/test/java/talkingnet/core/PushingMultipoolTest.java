@@ -3,7 +3,7 @@ package talkingnet.core;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.Test;
-import talkingnet.core.adder.SimpleAdder8bit;
+import talkingnet.core.adder.simple.SimpleAdder8bit;
 import talkingnet.core.foo.sink.FooSink;
 import talkingnet.core.foo.source.FooSource;
 import talkingnet.core.io.Pushable;

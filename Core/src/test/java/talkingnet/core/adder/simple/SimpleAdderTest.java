@@ -1,5 +1,6 @@
-package talkingnet.core.adder;
+package talkingnet.core.adder.simple;
 
+import talkingnet.core.adder.simple.SimpleAdder8bit;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.junit.Test;

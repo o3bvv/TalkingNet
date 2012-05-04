@@ -13,7 +13,7 @@ import talkingnet.codecs.ulaw.ULawDecompresssor;
 import talkingnet.core.Copier;
 import talkingnet.core.Pump;
 import talkingnet.core.PushingMultipool;
-import talkingnet.core.adder.SimpleAdder16bit;
+import talkingnet.core.adder.simple.SimpleAdder16bit;
 import talkingnet.core.io.Pushable;
 import talkingnet.net.udp.*;
 import talkingnet.utils.audio.DefaultAudioFormat;
