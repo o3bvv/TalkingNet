@@ -112,4 +112,13 @@ public class ConcurrentCircularBuffer<T> {
 
         return (T[]) result;
     }
+    
+    public void clear(){
+        cursorHead.set(0);
+        cursorTail.set(0);
+    }
+    
+    public boolean isEmpty(){
+        return cursorHead.get() == cursorTail.get();
+    }
 }
