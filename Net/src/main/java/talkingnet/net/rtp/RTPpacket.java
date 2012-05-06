@@ -82,7 +82,7 @@ public class RTPpacket {
     private void restorePayload(byte[] packet, int packet_size) {
         payloadSize = packet_size - HEADER_SIZE;
         payload = new byte[payloadSize];
-        System.arraycopy(packet, HEADER_SIZE, header, 0, payloadSize);
+        System.arraycopy(packet, HEADER_SIZE, payload, 0, payloadSize);
     }
     
     private void restoreHeaderChangingFields(){
