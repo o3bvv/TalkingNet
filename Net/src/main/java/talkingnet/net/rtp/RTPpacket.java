@@ -1,7 +1,8 @@
 package talkingnet.net.rtp;
 
 /**
- * @author Alexander Oblovatniy <oblovatniy@gmail.com> <br/>Original:
+ * @author Alexander Oblovatniy <oblovatniy@gmail.com>
+ * <br/>Original:
  * @see
  * http://code.google.com/p/mynpr/source/browse/trunk/mynpr/src/com/webeclubbin/mynpr/RTPpacket.java
  */
@@ -84,69 +85,70 @@ public class RTPpacket {
         }
     }
 
-    //--------------------------
-    //getpayload: return the payload bistream of the RTPpacket and its size
-    //--------------------------
+    /**
+     * Puts payload to data bitstream
+     * @param data Bitstream to fill
+     * @return Length of payload
+     */
     public int getpayload(byte[] data) {
         System.arraycopy(payload, 0, data, 0, payload_size);
         return (payload_size);
     }
 
-    //--------------------------
-    //getpayload_length: return the length of the payload
-    //--------------------------
+    /**
+     * @return The length of the payload
+     */
     public int getpayload_length() {
         return (payload_size);
     }
 
-    //--------------------------
-    //getlength: return the total length of the RTP packet
-    //--------------------------
+    /**
+     * @return The total length of the RTP packet
+     */
     public int getlength() {
         return (payload_size + HEADER_SIZE);
     }
 
-    //--------------------------
-    //getpacket: returns the packet bitstream and its length
-    //--------------------------
-    public int getpacket(byte[] packet) {
-        //construct the packet = header + payload
+    /**
+     * Puts header and payload to packet bitstream
+     * @param packet Bitstream to fill
+     * @return Total length of the RTP packet
+     */
+    public int getpacket(byte[] packet) {        
         System.arraycopy(header, 0, packet, 0, HEADER_SIZE);
         System.arraycopy(payload, 0, packet, HEADER_SIZE, payload_size);
 
-        //return total size of the packet
-        return (payload_size + HEADER_SIZE);
+        return getlength();
     }
 
-    //--------------------------
-    //gettimestamp
-    //--------------------------
+    /**
+     * @return Packet's timestamp
+     */
     public int gettimestamp() {
         return (TimeStamp);
     }
 
-    //--------------------------
-    //getsequencenumber
-    //--------------------------
+    /**
+     * @return Packet's number in sequence
+     */
     public int getsequencenumber() {
         return (SequenceNumber);
     }
 
-    //--------------------------
-    //getpayloadtype
-    //--------------------------
+    /**
+     * @return Integer value of payload type
+     */
     public int getpayloadtype() {
         return (PayloadType);
     }
 
-    //--------------------------
-    //print headers without the SSRC
-    //--------------------------
+    /**
+     * Print headers without the SSRC
+     */    
     public void printheader() {
         final String TAG = "printheader ";
 
         for (int i = 0; i < (HEADER_SIZE - 4); i++) {
-
             for (int j = 7; j >= 0; j--) {
                 if (((1 << j) & header[i]) != 0) {
                     System.out.println(TAG + "1");
@@ -155,12 +157,13 @@ public class RTPpacket {
                 }
             }
         }
-
     }
 
-    //return the unsigned value of 8-bit integer nb
+    /**
+     * @param nb 8-bit integer
+     * @return The unsigned value of nb
+     */
     private static int unsigned_int(int nb) {
-
         if (nb >= 0) {
             return (nb);
         } else {
