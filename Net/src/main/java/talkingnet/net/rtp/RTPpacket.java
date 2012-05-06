@@ -1,6 +1,8 @@
 package talkingnet.net.rtp;
 
 /**
+ * @author Alexander Oblovatniy <oblovatniy@gmail.com>
+ * <br/>Original:
  * @see http://code.google.com/p/mynpr/source/browse/trunk/mynpr/src/com/webeclubbin/mynpr/RTPpacket.java
  */
 public class RTPpacket {
@@ -70,12 +72,9 @@ public class RTPpacket {
         //--------------------------
         payload_size = data_length;
         payload = new byte[data_length];
-
+        
         //fill payload array of byte from data (given in parameter of the constructor)
-        for (int i = 0; i < data_length; i++) {
-            payload[i] = data[i];
-        }
-
+        System.arraycopy(data, 0, payload, 0, data_length);
     }
 
     //--------------------------
@@ -94,9 +93,7 @@ public class RTPpacket {
         if (packet_size >= HEADER_SIZE) {
             //get the header bitsream:
             header = new byte[HEADER_SIZE];
-            for (int i = 0; i < HEADER_SIZE; i++) {
-                header[i] = packet[i];
-            }
+            System.arraycopy(packet, 0, header, 0, HEADER_SIZE);
 
             //get the payload bitstream:
             payload_size = packet_size - HEADER_SIZE;
@@ -116,11 +113,7 @@ public class RTPpacket {
     //getpayload: return the payload bistream of the RTPpacket and its size
     //--------------------------
     public int getpayload(byte[] data) {
-
-        for (int i = 0; i < payload_size; i++) {
-            data[i] = payload[i];
-        }
-
+        System.arraycopy(payload, 0, data, 0, payload_size);
         return (payload_size);
     }
 
@@ -143,12 +136,8 @@ public class RTPpacket {
     //--------------------------
     public int getpacket(byte[] packet) {
         //construct the packet = header + payload
-        for (int i = 0; i < HEADER_SIZE; i++) {
-            packet[i] = header[i];
-        }
-        for (int i = 0; i < payload_size; i++) {
-            packet[i + HEADER_SIZE] = payload[i];
-        }
+        System.arraycopy(header, 0, packet, 0, HEADER_SIZE);
+        System.arraycopy(payload, 0, packet, HEADER_SIZE, payload_size);
 
         //return total size of the packet
         return (payload_size + HEADER_SIZE);
