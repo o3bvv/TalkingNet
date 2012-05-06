@@ -64,25 +64,31 @@ public class RTPpacket {
     /**
      * RTP packet from UDP data
      */
-    public RTPpacket(byte[] packet, int packet_size) {
-        //check if total packet size is lower than the header size
-        if (packet_size >= HEADER_SIZE) {
-            //get the header bitsream:
-            header = new byte[HEADER_SIZE];
-            System.arraycopy(packet, 0, header, 0, HEADER_SIZE);
-
-            //get the payload bitstream:
-            payload_size = packet_size - HEADER_SIZE;
-            payload = new byte[payload_size];
-            for (int i = HEADER_SIZE; i < packet_size; i++) {
-                payload[i - HEADER_SIZE] = packet[i];
-            }
-
-            //interpret the changing fields of the header:
-            PayloadType = header[1] & 127;
-            SequenceNumber = unsigned_int(header[3]) + 256 * unsigned_int(header[2]);
-            TimeStamp = unsigned_int(header[7]) + 256 * unsigned_int(header[6]) + 65536 * unsigned_int(header[5]) + 16777216 * unsigned_int(header[4]);
+    public RTPpacket(byte[] packet, int packet_size) {        
+        if (packet_size < HEADER_SIZE) {
+            return;
         }
+        
+        restoreHeader(packet);
+        restorePaload(packet, packet_size);
+        restoreHeaderChangingFields();
+    }
+    
+    private void restoreHeader(byte[] packet) {
+        header = new byte[HEADER_SIZE];
+        System.arraycopy(packet, 0, header, 0, HEADER_SIZE);
+    }
+    
+    private void restorePaload(byte[] packet, int packet_size) {
+        payload_size = packet_size - HEADER_SIZE;
+        payload = new byte[payload_size];
+        System.arraycopy(packet, HEADER_SIZE, header, 0, payload_size);
+    }
+    
+    private void restoreHeaderChangingFields(){
+        PayloadType = header[1] & 127;
+        SequenceNumber = unsigned_int(header[3]) + 256 * unsigned_int(header[2]);
+        TimeStamp = unsigned_int(header[7]) + 256 * unsigned_int(header[6]) + 65536 * unsigned_int(header[5]) + 16777216 * unsigned_int(header[4]);
     }
 
     /**
