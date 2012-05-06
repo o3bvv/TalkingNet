@@ -11,31 +11,31 @@ public class RTPpacket {
     public static int HEADER_SIZE = 12;
     
     public byte[] header;
-    public int payload_size;
+    public int payloadSize;
     public byte[] payload;
     
-    public int Version = 2;
-    public int Padding = 0;
-    public int Extension = 0;
-    public int CC = 0;
-    public int Marker = 0;
-    public int Ssrc = 0;
-    public int PayloadType;
-    public int SequenceNumber;
-    public int TimeStamp;
+    public int version = 2;
+    public int padding = 0;
+    public int extension = 0;
+    public int CSRCcount = 0;
+    public int marker = 0;
+    public int SSRC = 0;
+    public int payloadType;
+    public int sequenceNumber;
+    public int timeStamp;
 
     /**
      * RTP packet from raw data
      */
     public RTPpacket(int PType, int Framenb, int Time, byte[] data, int data_length) {
-        SequenceNumber = Framenb;
-        TimeStamp      = Time;
-        PayloadType    = PType;
-        payload_size   = data_length;
+        sequenceNumber = Framenb;
+        timeStamp      = Time;
+        payloadType    = PType;
+        payloadSize   = data_length;
 
         createAndFillHeader();
         
-        payload = new byte[payload_size];
+        payload = new byte[payloadSize];
         
         System.arraycopy(data, 0, payload, 0, data_length);
     }
@@ -43,22 +43,22 @@ public class RTPpacket {
     private void createAndFillHeader() {
         header = new byte[HEADER_SIZE];
 
-        header[0] = (byte) (Version << 6);
-        header[0] = (byte) (header[0] | Padding << 5);
-        header[0] = (byte) (header[0] | Extension << 4);
-        header[0] = (byte) (header[0] | CC);
-        header[1] = (byte) (header[1] | Marker << 7);
-        header[1] = (byte) (header[1] | PayloadType);
-        header[2] = (byte) (SequenceNumber >> 8);
-        header[3] = (byte) (SequenceNumber & 0xFF);
-        header[4] = (byte) (TimeStamp >> 24);
-        header[5] = (byte) (TimeStamp >> 16);
-        header[6] = (byte) (TimeStamp >> 8);
-        header[7] = (byte) (TimeStamp & 0xFF);
-        header[8] = (byte) (Ssrc >> 24);
-        header[9] = (byte) (Ssrc >> 16);
-        header[10] = (byte) (Ssrc >> 8);
-        header[11] = (byte) (Ssrc & 0xFF);
+        header[0] = (byte) (version << 6);
+        header[0] = (byte) (header[0] | padding << 5);
+        header[0] = (byte) (header[0] | extension << 4);
+        header[0] = (byte) (header[0] | CSRCcount);
+        header[1] = (byte) (header[1] | marker << 7);
+        header[1] = (byte) (header[1] | payloadType);
+        header[2] = (byte) (sequenceNumber >> 8);
+        header[3] = (byte) (sequenceNumber & 0xFF);
+        header[4] = (byte) (timeStamp >> 24);
+        header[5] = (byte) (timeStamp >> 16);
+        header[6] = (byte) (timeStamp >> 8);
+        header[7] = (byte) (timeStamp & 0xFF);
+        header[8] = (byte) (SSRC >> 24);
+        header[9] = (byte) (SSRC >> 16);
+        header[10] = (byte) (SSRC >> 8);
+        header[11] = (byte) (SSRC & 0xFF);
     }
     
     /**
@@ -70,7 +70,7 @@ public class RTPpacket {
         }
         
         restoreHeader(packet);
-        restorePaload(packet, packet_size);
+        restorePayload(packet, packet_size);
         restoreHeaderChangingFields();
     }
     
@@ -79,16 +79,16 @@ public class RTPpacket {
         System.arraycopy(packet, 0, header, 0, HEADER_SIZE);
     }
     
-    private void restorePaload(byte[] packet, int packet_size) {
-        payload_size = packet_size - HEADER_SIZE;
-        payload = new byte[payload_size];
-        System.arraycopy(packet, HEADER_SIZE, header, 0, payload_size);
+    private void restorePayload(byte[] packet, int packet_size) {
+        payloadSize = packet_size - HEADER_SIZE;
+        payload = new byte[payloadSize];
+        System.arraycopy(packet, HEADER_SIZE, header, 0, payloadSize);
     }
     
     private void restoreHeaderChangingFields(){
-        PayloadType = header[1] & 127;
-        SequenceNumber = unsigned_int(header[3]) + 256 * unsigned_int(header[2]);
-        TimeStamp = unsigned_int(header[7]) + 256 * unsigned_int(header[6]) + 65536 * unsigned_int(header[5]) + 16777216 * unsigned_int(header[4]);
+        payloadType = header[1] & 127;
+        sequenceNumber = unsignedInt(header[3]) + 256 * unsignedInt(header[2]);
+        timeStamp = unsignedInt(header[7]) + 256 * unsignedInt(header[6]) + 65536 * unsignedInt(header[5]) + 16777216 * unsignedInt(header[4]);
     }
 
     /**
@@ -96,23 +96,23 @@ public class RTPpacket {
      * @param data Bitstream to fill
      * @return Length of payload
      */
-    public int getpayload(byte[] data) {
-        System.arraycopy(payload, 0, data, 0, payload_size);
-        return (payload_size);
+    public int getPayload(byte[] data) {
+        System.arraycopy(payload, 0, data, 0, payloadSize);
+        return (payloadSize);
     }
 
     /**
      * @return The length of the payload
      */
-    public int getpayload_length() {
-        return (payload_size);
+    public int getPayloadLength() {
+        return (payloadSize);
     }
 
     /**
      * @return The total length of the RTP packet
      */
-    public int getlength() {
-        return (payload_size + HEADER_SIZE);
+    public int getLength() {
+        return (payloadSize + HEADER_SIZE);
     }
 
     /**
@@ -120,38 +120,38 @@ public class RTPpacket {
      * @param packet Bitstream to fill
      * @return Total length of the RTP packet
      */
-    public int getpacket(byte[] packet) {        
+    public int getPacket(byte[] packet) {        
         System.arraycopy(header, 0, packet, 0, HEADER_SIZE);
-        System.arraycopy(payload, 0, packet, HEADER_SIZE, payload_size);
+        System.arraycopy(payload, 0, packet, HEADER_SIZE, payloadSize);
 
-        return getlength();
+        return getLength();
     }
 
     /**
      * @return Packet's timestamp
      */
-    public int gettimestamp() {
-        return (TimeStamp);
+    public int getTimestamp() {
+        return (timeStamp);
     }
 
     /**
      * @return Packet's number in sequence
      */
-    public int getsequencenumber() {
-        return (SequenceNumber);
+    public int getSequenceNumber() {
+        return (sequenceNumber);
     }
 
     /**
      * @return Integer value of payload type
      */
-    public int getpayloadtype() {
-        return (PayloadType);
+    public int getPayloadType() {
+        return (payloadType);
     }
 
     /**
      * Print headers without the SSRC
      */    
-    public void printheader() {
+    public void printHeader() {
         final String TAG = "printheader ";
 
         for (int i = 0; i < (HEADER_SIZE - 4); i++) {
@@ -169,7 +169,7 @@ public class RTPpacket {
      * @param nb 8-bit integer
      * @return The unsigned value of nb
      */
-    private static int unsigned_int(int nb) {
+    private static int unsignedInt(int nb) {
         if (nb >= 0) {
             return (nb);
         } else {
