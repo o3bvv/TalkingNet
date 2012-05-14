@@ -1,11 +1,9 @@
 package talkingnet.audiodevices;
 
 import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.Mixer;
 import org.junit.Test;
 import talkingnet.core.io.Pullable;
 import talkingnet.utils.audio.DefaultAudioFormat;
-import talkingnet.utils.audio.DefaultMixerHolder;
 
 /**
  *
@@ -16,16 +14,14 @@ public class AudioSinkTest {
     private Pullable source;
     private AudioSink sink;
     
-    private Mixer mixer;
     private AudioFormat format;
     
     private int bufferLength = 1000;
     
     public AudioSinkTest() {        
         source = new SineGenerator();        
-        mixer = DefaultMixerHolder.getMixer();
         format = new DefaultAudioFormat();   
-        sink = new AudioSink(mixer, format, bufferLength, source, "audioSink");        
+        sink = new AudioSink(null, format, bufferLength, source, "audioSink");        
     }
 
     @Test
@@ -61,6 +57,11 @@ public class AudioSinkTest {
         
         public int pull_out(byte[] data, int size) {
             System.arraycopy(buffer, 0, data, 0, size);
+            return size;
+        }
+
+        public int pull_out(byte[] data, int offset, int size) {
+            System.arraycopy(buffer, 0, data, offset, size);
             return size;
         }
     }

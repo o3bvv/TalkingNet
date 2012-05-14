@@ -22,13 +22,17 @@ public class Pool extends Element implements Pushable, Pullable {
     }
 
     public int pull_out(byte[] data, int size) {
+        return pull_out(data, 0, size);
+    }
+
+    public int pull_out(byte[] data, int offset, int size) {
         byte[] result = buffer.removeAndGetOrGetNull();
         
         if (result==null) {
             result = new byte[size];
         }
         
-        System.arraycopy(result, 0, data, 0, size);
+        System.arraycopy(result, 0, data, offset, size);
         return size;
     }
 }

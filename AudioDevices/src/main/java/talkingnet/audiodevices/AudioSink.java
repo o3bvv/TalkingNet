@@ -55,7 +55,11 @@ public class AudioSink extends AudioDevice implements Pulling{
     
     @Override
     public int pull_in(byte[] data, int size) {
-        return source.pull_out(data, size);
+        return pull_in(data, 0, size);
+    }
+
+    public int pull_in(byte[] data, int offset, int size) {
+        return source.pull_out(data, offset, size);
     }
     
     private class PushingThread extends ProcessingThread implements Pushing {
@@ -70,14 +74,6 @@ public class AudioSink extends AudioDevice implements Pulling{
                 if (read > 0) {
                     synchronized (AudioSink.this) {
                         push_out(buffer, buffer.length);
-                    }
-                } else {
-                    try {
-                        synchronized (this) {
-                            this.wait(40);
-                        }
-                    } catch (InterruptedException ex) {
-                        System.out.println(ex);
                     }
                 }
             }

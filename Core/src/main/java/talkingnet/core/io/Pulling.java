@@ -7,4 +7,5 @@ package talkingnet.core.io;
 public interface Pulling {
 
     int pull_in(byte[] data, int size);
+    int pull_in(byte[] data, int offset, int size);
 }

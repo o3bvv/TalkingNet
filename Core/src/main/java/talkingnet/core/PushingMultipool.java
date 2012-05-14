@@ -39,10 +39,14 @@ public class PushingMultipool extends Element implements Multipushing {
         }
 
         public int pull_out(byte[] data, int size) {
+            return pull_out(data, 0, size);
+        }
+        
+        public int pull_out(byte[] data, int offset, int size) {
             if (queue.isEmpty()) {
                 return 0;
             } else {
-                System.arraycopy(queue.poll(), 0, data, 0, size);
+                System.arraycopy(queue.poll(), 0, data, offset, size);
                 return size;
             }
         }

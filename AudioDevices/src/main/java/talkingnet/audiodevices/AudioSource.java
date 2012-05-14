@@ -65,22 +65,19 @@ public class AudioSource extends AudioDevice implements Pushing {
         @Override
         public void run() {
             int read;
+            int offset = 0;
             while (!doTerminate) {
                 byte[] buffer = new byte[bufferLength];
-                read = pull_in(buffer, buffer.length);
+                offset = 0;
                 
-                if (read > 0) {
-                    synchronized (AudioSource.this) {
-                        push_out(buffer, buffer.length);
-                    }
-                } else {
-                    try {
-                        synchronized (this) {
-                            this.wait(20);
-                        }
-                    } catch (InterruptedException ex) {
-                        System.out.println(ex);
-                    }
+                while(offset<bufferLength){
+                    
+                    read = pull_in(buffer, offset, buffer.length-offset);
+                    offset += read;
+                }
+                
+                synchronized (AudioSource.this) {
+                    push_out(buffer, buffer.length);
                 }
             }
             terminated = true;
@@ -88,16 +85,21 @@ public class AudioSource extends AudioDevice implements Pushing {
 
         @Override
         public int pull_in(byte[] data, int size) {
+            return pull_in(data, 0, size);
+        }
+
+        @Override
+        public int pull_in(byte[] data, int offset, int size) {
             try {
-                return tryRead(data, size);
+                return tryRead(data, offset, size);
             } catch (IOException ex) {
                 System.out.println(ex);
             }
             return -1;
         }
-
-        private int tryRead(byte[] data, int size) throws IOException {
-            return lineStream.read(data, 0, size);            			
+        
+        private int tryRead(byte[] data, int offset, int size) throws IOException {
+            return lineStream.read(data, offset, size);            			
         }
     }
     

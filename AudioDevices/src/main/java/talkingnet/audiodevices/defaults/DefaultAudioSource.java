@@ -3,7 +3,6 @@ package talkingnet.audiodevices.defaults;
 import talkingnet.audiodevices.AudioSource;
 import talkingnet.core.io.Pushable;
 import talkingnet.utils.audio.DefaultAudioFormat;
-import talkingnet.utils.audio.DefaultMixerHolder;
 
 /**
  *
@@ -12,8 +11,8 @@ import talkingnet.utils.audio.DefaultMixerHolder;
 public class DefaultAudioSource extends AudioSource {
 
     public DefaultAudioSource(int bufferLength, Pushable sink, String title) {
-        super(DefaultMixerHolder.getMixer(),
-                new DefaultAudioFormat(),
-                bufferLength, sink, title);
+        super(null,
+              new DefaultAudioFormat(),
+              bufferLength, sink, title);
     }
 }
