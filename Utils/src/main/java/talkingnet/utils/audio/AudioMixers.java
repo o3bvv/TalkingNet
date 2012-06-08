@@ -12,7 +12,7 @@ import javax.sound.sampled.Mixer;
  */
 public class AudioMixers {
 
-    public static Collection<Mixer> getAvailableMixers() {
+    public static List<Mixer> getAvailableMixers() {
         List<Mixer> result = new ArrayList<Mixer>();
         Mixer.Info[] infos = AudioSystem.getMixerInfo();
         for (int i = 0; i < infos.length; i++) {
@@ -22,7 +22,7 @@ public class AudioMixers {
         return result;
     }
 
-    public static Collection<String> getAvailableMixersNames() {
+    public static List<String> getAvailableMixersNames() {
         List<String> result = new ArrayList<String>();
         Mixer.Info[] infos = AudioSystem.getMixerInfo();
         for (int i = 0; i < infos.length; i++) {
