@@ -3,11 +3,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>talkingnet</groupId>
+        <groupId>ua.cn.stu.cs.talkingnet</groupId>
         <artifactId>Examples</artifactId>
         <version>1.0</version>
     </parent>
-    <groupId>talkingnet.examples</groupId>
+    <groupId>ua.cn.stu.cs.talkingnet.examples</groupId>
     <artifactId>SimpleConference</artifactId>
     <version>1.0</version>
     <name>Simple conference</name>

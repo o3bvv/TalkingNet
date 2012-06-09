@@ -4,11 +4,11 @@
    
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>talkingnet</groupId>
+        <groupId>ua.cn.stu.cs.talkingnet</groupId>
         <artifactId>TalkingNet</artifactId>
         <version>1.0</version>
     </parent>
-    <groupId>talkingnet</groupId>
+    <groupId>ua.cn.stu.cs.talkingnet</groupId>
     <artifactId>Utils</artifactId>
     <version>1.0</version>
     <name>Utils</name>
