@@ -17,31 +17,63 @@ public class UdpBin extends Element implements UdpPushable {
     private UdpSource source;
     private DatagramSocket socket;
 
-    public UdpBin(UdpPushable udpSink, int bufferLength, String title) throws SocketException {
+    /**
+     * @param udpSink Sink received packets push to
+     * @param bufferSize Size of data to read
+     * @param title Title of the element
+     */
+    public UdpBin(UdpPushable udpSink, int bufferSize, String title) throws SocketException {
         super(title);
         socket = new DatagramSocket();
-        createElements(udpSink, bufferLength);
+        createElements(udpSink, bufferSize);
     }
 
-    public UdpBin(int port, UdpPushable udpSink, int bufferLength, String title) throws SocketException {
+    /**
+     * @param port Local port to bind to
+     * @param udpSink Sink received packets push to
+     * @param bufferSize Size of data to read
+     * @param title Title of the element
+     */
+    public UdpBin(int port, UdpPushable udpSink, int bufferSize, String title) throws SocketException {
         super(title);
         socket = new DatagramSocket(port);
-        createElements(udpSink, bufferLength);
+        createElements(udpSink, bufferSize);
     }
 
-    public UdpBin(SocketAddress localAddress, UdpPushable udpSink, int bufferLength, String title) throws SocketException {
+    /**
+     * @param remoteAddress Remote address to connect to
+     * @param udpSink Sink received packets push to
+     * @param bufferSize Size of data to read
+     * @param title Title of the element
+     */
+    public UdpBin(SocketAddress remoteAddress, UdpPushable udpSink, int bufferSize, String title) throws SocketException {
         super(title);
-        socket = new DatagramSocket(localAddress);
-        createElements(udpSink, bufferLength);
+        socket = new DatagramSocket();
+        socket.connect(remoteAddress);
+        createElements(udpSink, bufferSize);
     }
-
-    public UdpBin(SocketAddress address, int port, UdpPushable udpSink, int bufferLength, String title) throws SocketException {
+    
+    /**
+     * @param remoteAddress Remote address to connect to
+     * @param port Local port to bind to
+     * @param udpSink Sink received packets push to
+     * @param bufferSize Size of data to read
+     * @param title Title of the element
+     */
+    public UdpBin(SocketAddress remoteAddress, int port, UdpPushable udpSink, int bufferLength, String title) throws SocketException {
         super(title);
         socket = new DatagramSocket(port);
-        socket.connect(address);
+        socket.connect(remoteAddress);
         createElements(udpSink, bufferLength);
     }
 
+    /**
+     * @param remoteAddress Remote address to connect to
+     * @param localAddress Local address to bind to
+     * @param udpSink Sink received packets push to
+     * @param bufferSize Size of data to read
+     * @param title Title of the element
+     */
     public UdpBin(SocketAddress localAddress, SocketAddress remoteAddress, UdpPushable udpSink, int bufferLength, String title) throws SocketException {
         super(title);
         socket = new DatagramSocket(localAddress);
