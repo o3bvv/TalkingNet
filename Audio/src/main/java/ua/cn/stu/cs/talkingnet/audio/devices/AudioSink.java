@@ -1,4 +1,4 @@
-package ua.cn.stu.cs.talkingnet.audiodevices;
+package ua.cn.stu.cs.talkingnet.audio.devices;
 
 import javax.sound.sampled.*;
 import ua.cn.stu.cs.talkingnet.core.io.Pullable;

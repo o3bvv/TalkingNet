@@ -1,6 +1,6 @@
-package ua.cn.stu.cs.talkingnet.audiodevices.defaults;
+package ua.cn.stu.cs.talkingnet.audio.devices.defaults;
 
-import ua.cn.stu.cs.talkingnet.audiodevices.AudioSink;
+import ua.cn.stu.cs.talkingnet.audio.devices.AudioSink;
 import ua.cn.stu.cs.talkingnet.core.io.Pullable;
 import ua.cn.stu.cs.talkingnet.utils.audio.DefaultAudioFormat;
 

@@ -8,9 +8,9 @@
         <version>1.0</version>
     </parent>
     <groupId>ua.cn.stu.cs.talkingnet</groupId>
-    <artifactId>AudioDevices</artifactId>
+    <artifactId>Audio</artifactId>
     <version>1.0</version>
-    <name>AudioDevices</name>
+    <name>Audio</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

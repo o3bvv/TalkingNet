@@ -1,4 +1,4 @@
-package ua.cn.stu.cs.talkingnet.audiodevices;
+package ua.cn.stu.cs.talkingnet.audio.devices;
 
 import java.io.InputStream;
 import javax.sound.sampled.*;

@@ -1,8 +1,10 @@
-package ua.cn.stu.cs.talkingnet.audiodevices;
+package ua.cn.stu.cs.talkingnet.audio.devices;
 
+import ua.cn.stu.cs.talkingnet.audio.devices.AudioSink;
+import ua.cn.stu.cs.talkingnet.audio.devices.AudioSource;
 import org.junit.Test;
-import ua.cn.stu.cs.talkingnet.audiodevices.defaults.DefaultAudioSink;
-import ua.cn.stu.cs.talkingnet.audiodevices.defaults.DefaultAudioSource;
+import ua.cn.stu.cs.talkingnet.audio.devices.defaults.DefaultAudioSink;
+import ua.cn.stu.cs.talkingnet.audio.devices.defaults.DefaultAudioSource;
 import ua.cn.stu.cs.talkingnet.core.Pool;
 import ua.cn.stu.cs.talkingnet.utils.audio.DefaultAudioFormat;
 

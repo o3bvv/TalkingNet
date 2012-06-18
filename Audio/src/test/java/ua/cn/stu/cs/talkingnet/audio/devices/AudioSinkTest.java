@@ -1,5 +1,6 @@
-package ua.cn.stu.cs.talkingnet.audiodevices;
+package ua.cn.stu.cs.talkingnet.audio.devices;
 
+import ua.cn.stu.cs.talkingnet.audio.devices.AudioSink;
 import javax.sound.sampled.AudioFormat;
 import org.junit.Test;
 import ua.cn.stu.cs.talkingnet.core.io.Pullable;

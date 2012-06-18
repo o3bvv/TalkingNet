@@ -10,7 +10,7 @@
     <modules>
         <module>Core</module>
         <module>Utils</module>
-        <module>AudioDevices</module>
+        <module>Audio</module>
         <module>Net</module>
         <module>Codecs</module>
         <module>Examples</module>
