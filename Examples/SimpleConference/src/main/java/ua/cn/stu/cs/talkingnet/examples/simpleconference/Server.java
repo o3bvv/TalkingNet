@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.net.SocketException;
 import java.util.LinkedList;
 import java.util.List;
 import ua.cn.stu.cs.talkingnet.codecs.ulaw.ULawCompressor;
@@ -38,7 +39,7 @@ public class Server {
     private Copier compressedDataCopier;
     
 
-    public Server(SocketAddress localAddress) {
+    public Server(SocketAddress localAddress) throws SocketException {
         
         getClientsAddresses();
 
@@ -162,8 +163,12 @@ public class Server {
 
         int port = Integer.parseInt(args[1]);
         SocketAddress localAddress = new InetSocketAddress(args[0], port);
-
-        new Server(localAddress);
+        
+        try {
+            new Server(localAddress);
+        } catch (SocketException ex) {
+            System.out.println(ex);
+        }
     }
 
     private static void validateArgs(String[] args) {

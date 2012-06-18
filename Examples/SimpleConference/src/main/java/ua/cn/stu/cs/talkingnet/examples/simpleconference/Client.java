@@ -3,6 +3,7 @@ package ua.cn.stu.cs.talkingnet.examples.simpleconference;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.net.SocketException;
 import ua.cn.stu.cs.talkingnet.audiodevices.defaults.DefaultAudioSink;
 import ua.cn.stu.cs.talkingnet.audiodevices.defaults.DefaultAudioSource;
 import ua.cn.stu.cs.talkingnet.codecs.ulaw.ULawCompressor;
@@ -32,7 +33,7 @@ public class Client {
     private Pool pool;
     private DefaultAudioSink sink;
 
-    public Client(SocketAddress localAddress, SocketAddress remoteAddress, float threshold) {
+    public Client(SocketAddress localAddress, SocketAddress remoteAddress, float threshold) throws SocketException {
 
         bufferLength = DefaultAudioFormat.SAMPLING_RATE * DefaultAudioFormat.FRAME_SIZE;
         bufferLength /= (1000 / bufferLengthInMillis);
@@ -94,10 +95,14 @@ public class Client {
                 threshold = Float.parseFloat(args[4]);
             } catch (Exception e) {
                 System.out.println(e);
+                return;
             }
         }
-
-        new Client(localAddress, remoteAddress, threshold);
+        try {
+            new Client(localAddress, remoteAddress, threshold);
+        } catch (SocketException ex) {
+            System.out.println(ex);
+        }
     }
 
     private static void validateArgs(String[] args) {

@@ -1,9 +1,9 @@
 package ua.cn.stu.cs.talkingnet.net.udp;
 
-import ua.cn.stu.cs.talkingnet.net.udp.UdpBin;
 import java.net.DatagramPacket;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.net.SocketException;
 import java.util.Arrays;
 import org.junit.Test;
 import ua.cn.stu.cs.talkingnet.net.udp.io.UdpPushable;
@@ -22,12 +22,27 @@ public class UdpBinTest {
     
     private byte[] buffer = {1, 2, 4, 8, 16, 32};
 
-    public UdpBinTest() {
+    @Test
+    public void testUdpBin() throws Exception {
+        init();
+        
+        slaveBin.start();
+        masterBin.start();
+
+        masterBin.push_in(buffer, buffer.length);
+        
+        Thread.sleep(100l);
+
+        slaveBin.stop();
+        masterBin.stop();
+    }
+    
+    private void init() throws SocketException{
         initMasterBin();
         initSlaveBin();
     }
-
-    private void initMasterBin() {
+    
+    private void initMasterBin() throws SocketException {
         UdpPushable fooSink = new UdpPushable() {
 
             public void push_in(DatagramPacket packet) {
@@ -44,7 +59,7 @@ public class UdpBinTest {
                 peerAddress, masterPort, fooSink, buffer.length, "masterBin");
     }
 
-    private void initSlaveBin() {
+    private void initSlaveBin() throws SocketException {
         UdpPushable fooSink = new UdpPushable() {
 
             public void push_in(DatagramPacket packet) {
@@ -59,18 +74,5 @@ public class UdpBinTest {
         SocketAddress peerAddress = new InetSocketAddress("127.0.0.1", masterPort);
         slaveBin = new UdpBin(
                 peerAddress, slavePort, fooSink, buffer.length, "slaveBin");
-    }
-
-    @Test
-    public void testUdpBin() throws InterruptedException {
-        slaveBin.start();
-        masterBin.start();
-
-        masterBin.push_in(buffer, buffer.length);
-        
-        Thread.sleep(100l);
-
-        slaveBin.stop();
-        masterBin.stop();
     }
 }
