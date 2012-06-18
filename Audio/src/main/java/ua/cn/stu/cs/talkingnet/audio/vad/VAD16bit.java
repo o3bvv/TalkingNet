@@ -1,4 +1,4 @@
-package ua.cn.stu.cs.talkingnet.core.vad;
+package ua.cn.stu.cs.talkingnet.audio.vad;
 
 import ua.cn.stu.cs.talkingnet.core.Element;
 import ua.cn.stu.cs.talkingnet.core.io.Pushable;
