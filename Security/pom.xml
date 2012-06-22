@@ -16,6 +16,7 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <bouncycastle.provider.version>1.47</bouncycastle.provider.version>
     </properties>
     
     <dependencies>
@@ -23,6 +24,11 @@
             <groupId>${project.groupId}</groupId>
             <version>${project.version}</version>
             <artifactId>Core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <version>${bouncycastle.provider.version}</version>
+            <artifactId>provider</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
