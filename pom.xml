@@ -14,5 +14,6 @@
         <module>Net</module>
         <module>Codecs</module>
         <module>Examples</module>
-    </modules>
+    <module>Security</module>
+  </modules>
 </project>
