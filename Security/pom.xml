@@ -26,6 +26,13 @@
             <artifactId>Core</artifactId>
         </dependency>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <version>${project.version}</version>
+            <artifactId>Core</artifactId>
+            <scope>test</scope>
+            <classifier>tests</classifier>
+        </dependency>
+        <dependency>
             <groupId>org.bouncycastle</groupId>
             <version>${bouncycastle.provider.version}</version>
             <artifactId>provider</artifactId>
