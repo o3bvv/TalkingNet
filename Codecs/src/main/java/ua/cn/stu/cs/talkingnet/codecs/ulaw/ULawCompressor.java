@@ -21,12 +21,12 @@ public class ULawCompressor extends Element implements Compressor {
         this.sink = sink;
     }
 
-    public byte[] compress(byte[] data) {
-        byte[] result = new byte[data.length >> 1];
+    public byte[] compress(byte[] data, int offset, int length) {
+        byte[] result = new byte[length >> 1];
 
         int resPos = 0;
 
-        for (int i = 0; i < data.length; i += 2) {
+        for (int i = offset; i < length; i += 2) {
             short sample = (short) ((short) (data[i] << Byte.SIZE) + data[i + 1]);
             result[resPos] = comsress(sample);
             resPos++;
@@ -68,7 +68,7 @@ public class ULawCompressor extends Element implements Compressor {
     }
 
     public void push_in(byte[] data, int size) {
-        byte[] compressed = compress(data);
+        byte[] compressed = compress(data, 0, size);
         push_out(compressed, compressed.length);
     }
 

@@ -9,5 +9,5 @@ import ua.cn.stu.cs.talkingnet.core.io.Pushing;
  */
 public interface Decryptor extends Pushable, Pushing {
 
-    public byte[] decrypt(byte[] data);
+    public byte[] decrypt(byte[] data, int offset, int length);
 }

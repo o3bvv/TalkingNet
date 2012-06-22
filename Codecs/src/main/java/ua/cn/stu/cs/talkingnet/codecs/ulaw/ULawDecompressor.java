@@ -17,11 +17,11 @@ public class ULawDecompressor extends Element implements Decompressor {
         this.sink = sink;
     }
 
-    public byte[] decompress(byte[] data) {
-        byte[] result = new byte[data.length << 1];
+    public byte[] decompress(byte[] data, int offset, int length) {
+        byte[] result = new byte[length << 1];
         int resPos = 0;
         
-        for (int i = 0; i < data.length; i++) {
+        for (int i = offset; i < length; i++) {
             short sample = decompress(data[i]);
             result[resPos++] = (byte) (sample >> Byte.SIZE);
             result[resPos++] = (byte) (sample & 0xFF);
@@ -40,7 +40,7 @@ public class ULawDecompressor extends Element implements Decompressor {
     }
 
     public void push_in(byte[] data, int size) {
-        byte[] decompressed = decompress(data);
+        byte[] decompressed = decompress(data, 0, size);
         push_out(decompressed, decompressed.length);
     }
 

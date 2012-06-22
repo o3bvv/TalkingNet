@@ -9,5 +9,5 @@ import ua.cn.stu.cs.talkingnet.core.io.Pushing;
  */
 public interface Decompressor extends Pushable, Pushing{
     
-    public byte[] decompress(byte[] data);
+    public byte[] decompress(byte[] data, int offset, int length);
 }

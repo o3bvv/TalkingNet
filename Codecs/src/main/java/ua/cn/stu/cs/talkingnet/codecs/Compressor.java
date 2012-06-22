@@ -9,5 +9,5 @@ import ua.cn.stu.cs.talkingnet.core.io.Pushing;
  */
 public interface Compressor extends Pushable, Pushing{
 
-    public byte[] compress(byte[] data);
+    public byte[] compress(byte[] data, int offset, int length);
 }
