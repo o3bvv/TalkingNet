@@ -1,27 +1,15 @@
 package ua.cn.stu.cs.talkingnet.security.blockcipher;
 
-import org.bouncycastle.crypto.BufferedBlockCipher;
-import org.bouncycastle.crypto.CipherParameters;
-import org.bouncycastle.crypto.digests.GOST3411Digest;
-import org.bouncycastle.crypto.engines.GOST28147Engine;
-import org.bouncycastle.crypto.params.KeyParameter;
-import org.bouncycastle.crypto.params.ParametersWithSBox;
 import org.bouncycastle.util.encoders.Hex;
 import org.junit.Test;
-import ua.cn.stu.cs.talkingnet.core.foo.sink.FooSink;
-import ua.cn.stu.cs.talkingnet.core.io.Pushable;
 
 /**
  *
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  */
-public class BlockDecryptorTest {
-
-    static final int GOST28147_KEY_LENGTH = 32;
-    private static String KEY = "0123456789abcdef";
+public class BlockDecryptorTest extends BlockCipherTest {
     
     private BlockDecryptor decryptor;
-    private Pushable sink;
 
     public BlockDecryptorTest() {
         createDecryptor();
@@ -29,29 +17,13 @@ public class BlockDecryptorTest {
     }
 
     private void createDecryptor() {
-        BufferedBlockCipher cipher =
-                new BufferedBlockCipher(new GOST28147Engine());
-        sink = new FooSink("fooSink");
+        preCreate();
         decryptor = new BlockDecryptor(cipher, sink, "GOST28147_decryptor");
     }
 
     private void initDecryptor() {
-        byte[] key = generateKey(Hex.decode(KEY));
-        CipherParameters param =
-                new ParametersWithSBox(
-                new KeyParameter(key), GOST28147Engine.getSBox("E-A"));
+        preInit();
         decryptor.init(param);
-    }
-
-    private byte[] generateKey(byte[] startkey) {
-        byte[] newKey = new byte[GOST28147_KEY_LENGTH];
-
-        GOST3411Digest digest = new GOST3411Digest();
-
-        digest.update(startkey, 0, startkey.length);
-        digest.doFinal(newKey, 0);
-
-        return newKey;
     }
 
     @Test

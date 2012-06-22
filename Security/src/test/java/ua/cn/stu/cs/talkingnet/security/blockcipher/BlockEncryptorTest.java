@@ -15,43 +15,24 @@ import ua.cn.stu.cs.talkingnet.core.io.Pushable;
  *
  * @author Alexander Oblovatniy <oblovatniy@gmail.com>
  */
-public class BlockEncryptorTest {
-
-    static final int GOST28147_KEY_LENGTH = 32;
-    private static String KEY = "0123456789abcdef";
-    
+public class BlockEncryptorTest  extends BlockCipherTest {
+   
     private BlockEncryptor encryptor;
-    private Pushable sink;
-
+    
     public BlockEncryptorTest() {
         createEncryptor();
         initEncryptor();
     }
     
     private void createEncryptor(){
-        BufferedBlockCipher cipher =
-                new BufferedBlockCipher(new GOST28147Engine());
-        sink = new FooSink("fooSink");
+        preCreate();
         encryptor = new BlockEncryptor(cipher, sink, "GOST28147_encryptor");
     }
 
     private void initEncryptor(){
         byte[] key = generateKey(Hex.decode(KEY));
-        CipherParameters  param =
-                new ParametersWithSBox(
-                    new KeyParameter(key), GOST28147Engine.getSBox("E-A"));
+        preInit();
         encryptor.init(param);
-    }
-    
-    private byte[] generateKey(byte[] startkey) {
-        byte[] newKey = new byte[GOST28147_KEY_LENGTH];
-
-        GOST3411Digest digest = new GOST3411Digest();
-
-        digest.update(startkey, 0, startkey.length);
-        digest.doFinal(newKey, 0);
-
-        return newKey;
     }
 
     @Test
