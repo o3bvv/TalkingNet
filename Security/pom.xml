@@ -16,7 +16,7 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <bouncycastle.provider.version>1.47</bouncycastle.provider.version>
+        <bouncycastle.provider.version>1.46</bouncycastle.provider.version>
     </properties>
     
     <dependencies>
@@ -35,7 +35,7 @@
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <version>${bouncycastle.provider.version}</version>
-            <artifactId>provider</artifactId>
+            <artifactId>bcprov-jdk16</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
