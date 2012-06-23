@@ -16,7 +16,6 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <bouncycastle.provider.version>1.46</bouncycastle.provider.version>
     </properties>
     
     <dependencies>
@@ -31,11 +30,11 @@
             <artifactId>Core</artifactId>
             <scope>test</scope>
             <classifier>tests</classifier>
-        </dependency>
+        </dependency>        	
         <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <version>${bouncycastle.provider.version}</version>
-            <artifactId>bcprov-jdk16</artifactId>
+            <groupId>org.apache.directory.shared</groupId>
+            <artifactId>shared-bouncycastle-reduced</artifactId>
+            <version>0.9.12</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
