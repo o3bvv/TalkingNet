@@ -22,8 +22,12 @@ public class BlockEncryptor extends BufferedBlockCipherWrapper
     }
 
     public void push_in(byte[] data, int size) {
-        byte[] encrypted = encrypt(data, 0, size);
-        push_out(encrypted, encrypted.length);
+        if (byPass==true){
+            push_out(data, size);
+        } else {
+            byte[] encrypted = encrypt(data, 0, size);
+            push_out(encrypted, encrypted.length);
+        }
     }
 
     public void push_out(byte[] data, int size) {
